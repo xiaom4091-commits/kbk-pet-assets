@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.pet-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    position: relative;
+}
+
+/* Speech bubble */
+.bubble {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: #333;
+    max-width: 160px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.bubble.show { opacity: 1; }
+.bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0; height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid rgba(255,255,255,0.95);
+}
+
+/* Pet body */
+.pet {
+    width: 130px;
+    height: 130px;
+    position: relative;
+    animation: idle-bounce 3s ease-in-out infinite;
+}
+
+.pet svg {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.state-svg { display: none; }
+.state-svg.active { display: block; }
+
+@keyframes idle-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-8deg); }
+    75% { transform: rotate(8deg); }
+}
+
+@keyframes happy-jump {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-12px) scale(1.05); }
+}
+
+.pet.tap { animation: shake 0.4s ease; }
+.pet.happy { animation: happy-jump 0.5s ease; }
+.pet.sleeping { animation: none; opacity: 0.85; }
+
+</style>
+</head>
+<body>
+<div class="pet-container">
+    <div class="bubble" id="bubble"></div>
+    <div class="pet" id="pet">
+
+        <!-- STATE: idle (default) -->
+        <svg class="state-svg active" id="svg-idle" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45">
+            <defs><style>
+                .breathe-anim { transform-origin: 7.5px 13px; animation: breathe 3.2s infinite ease-in-out; }
+                .eyes-blink { transform-origin: 7.5px 9px; animation: eye-blink 4s infinite ease-in-out; }
+                @keyframes breathe { 0%, 100% { transform: scale(1, 1) translate(0, 0); } 50% { transform: scale(1.02, 0.98) translate(0, 0.5px); } }
+                @keyframes eye-blink { 0%, 10%, 100% { transform: scaleY(1); } 5% { transform: scaleY(0.1); } }
+            </style></defs>
+            <rect x="3" y="15" width="9" height="1" fill="#000000" opacity="0.5"/>
+            <g fill="#DE886D"><rect x="3" y="11" width="1" height="4"/><rect x="5" y="11" width="1" height="4"/><rect x="9" y="11" width="1" height="4"/><rect x="11" y="11" width="1" height="4"/></g>
+            <g class="breathe-anim">
+                <rect x="2" y="6" width="11" height="7" fill="#DE886D"/>
+                <rect x="0" y="9" width="2" height="2" fill="#DE886D"/>
+                <rect x="13" y="9" width="2" height="2" fill="#DE886D"/>
+                <g class="eyes-blink" fill="#000000"><rect x="4" y="8" width="1" height="2"/><rect x="10" y="8" width="1" height="2"/></g>
+            </g>
+        </svg>
+
+        <!-- STATE: crabwalk (tap) -->
+        <svg class="state-svg" id="svg-walk" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45">
+            <defs><style>
+                .body-hunch { transform-origin: 7.5px 15px; animation: hunch-walk 2s infinite alternate ease-in-out; }
+                .leg-1 { animation: sneak-1 0.5s infinite linear; transform-origin: top center; transform-box: fill-box; }
+                .leg-2 { animation: sneak-2 0.5s infinite linear; transform-origin: top center; transform-box: fill-box; }
+                .shadow-sneak { transform-origin: 7.5px 15.5px; animation: shadow-shift 2s infinite alternate ease-in-out; }
+                .eyes-crabwalk { transform-origin: 7.5px 9px; animation: crab-eyes 5s infinite ease-in-out; }
+                @keyframes hunch-walk { 0% { transform: translate(-2px, 1px) rotate(2deg); } 100% { transform: translate(3px, 1px) rotate(2deg); } }
+                @keyframes shadow-shift { 0% { transform: translateX(-2px) scale(0.9); opacity: 0.4; } 100% { transform: translateX(3px) scale(0.9); opacity: 0.4; } }
+                @keyframes sneak-1 { 0%, 100% { transform: rotate(0deg) scaleY(1); } 50% { transform: rotate(-25deg) scaleY(0.7); } }
+                @keyframes sneak-2 { 0%, 100% { transform: rotate(-25deg) scaleY(0.7); } 50% { transform: rotate(0deg) scaleY(1); } }
+                @keyframes crab-eyes { 0%, 55% { transform: translateX(2px) scaleY(1); } 62% { transform: translateX(0) scaleY(1); } 66% { transform: translateX(0) scaleY(0.1); } 70% { transform: translateX(0) scaleY(1); } 75% { transform: translateX(0) scaleY(0.1); } 80%, 85% { transform: translateX(0) scaleY(1); } 92%, 100% { transform: translateX(2px) scaleY(1); } }
+            </style></defs>
+            <rect class="shadow-sneak" x="3" y="15" width="9" height="1" fill="#000000" opacity="0.5"/>
+            <g class="body-hunch">
+                <g fill="#DE886D"><rect class="leg-1" x="3" y="13" width="1" height="2"/><rect class="leg-2" x="5" y="13" width="1" height="2"/><rect class="leg-1" x="9" y="13" width="1" height="2"/><rect class="leg-2" x="11" y="13" width="1" height="2"/></g>
+                <g fill="#DE886D"><rect x="2" y="6" width="11" height="7"/><rect x="0" y="9" width="2" height="2"/><rect x="13" y="9" width="2" height="2"/></g>
+                <g class="eyes-crabwalk" fill="#000000"><rect x="4" y="8" width="1" height="2"/><rect x="10" y="8" width="1" height="2"/></g>
+            </g>
+        </svg>
+
+        <!-- STATE: happy (double tap) -->
+        <svg class="state-svg" id="svg-happy" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45">
+            <defs><style>
+                .breathe-happy { transform-origin: 7.5px 13px; animation: breathe-h 3.2s infinite ease-in-out; }
+                .arm-happy { transform-origin: 2px 9px; animation: arm-happy-wave 0.4s infinite alternate ease-in-out; }
+                .eyes-happy-blink { transform-origin: 7.5px 9px; animation: happy-blink 3s infinite ease-in-out; }
+                .spark-center { opacity: 0; animation: flash-center 1.5s infinite step-end; animation-delay: var(--delay, 0s); }
+                .spark-outer { opacity: 0; animation: flash-outer 1.5s infinite step-end; animation-delay: var(--delay, 0s); }
+                @keyframes breathe-h { 0%, 100% { transform: scale(1, 1) translate(0, 0); } 50% { transform: scale(1.02, 0.98) translate(0, 0.5px); } }
+                @keyframes arm-happy-wave { 0% { transform: rotate(22deg); } 100% { transform: rotate(-8deg); } }
+                @keyframes happy-blink { 0%, 12%, 30%, 42%, 100% { transform: scaleY(1); } 6% { transform: scaleY(0.1); } 36% { transform: scaleY(0.1); } }
+                @keyframes flash-center { 0% { opacity: 0; } 10% { opacity: 1; } 30% { opacity: 0; } 100%{ opacity: 0; } }
+                @keyframes flash-outer { 0% { opacity: 0; } 20% { opacity: 1; } 40% { opacity: 0; } 100%{ opacity: 0; } }
+            </style>
+            <g id="px-sparkle-h"><rect class="spark-center" x="-0.5" y="-0.5" width="1" height="1" /><path class="spark-outer" d="M -0.5,-1.5 h1 v1 h-1 z M -0.5,0.5 h1 v1 h-1 z M -1.5,-0.5 h1 v1 h-1 z M 0.5,-0.5 h1 v1 h-1 z" /></g>
+            </defs>
+            <g transform="rotate(-12, 7.5, 15)">
+                <g fill="#DE886D"><rect x="3" y="11" width="1" height="4"/><rect x="5" y="11" width="1" height="4"/><rect x="9" y="11" width="1" height="4"/><rect x="11" y="11" width="1" height="4"/></g>
+                <g class="breathe-happy">
+                    <rect x="2" y="6" width="11" height="7" fill="#DE886D"/>
+                    <g class="arm-happy"><rect x="-1.5" y="9" width="4.5" height="2" fill="#DE886D"/><rect x="-1.5" y="6" width="0.5" height="3" fill="#000000"/><rect x="-2.5" y="5" width="0.8" height="0.8" fill="#FFD700"/><rect x="-0.5" y="5" width="0.8" height="0.8" fill="#FFD700"/><rect x="-1.5" y="4.2" width="0.8" height="0.8" fill="#FFD700"/><rect x="-1.5" y="5.8" width="0.8" height="0.8" fill="#FFD700"/><rect x="-1.5" y="5" width="0.8" height="0.8" fill="#FFA000"/></g>
+                    <rect x="13" y="9" width="2" height="2" fill="#DE886D"/>
+                    <g class="eyes-happy-blink"><g fill="none" stroke="#000000" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="3.5,9 4.5,8 5.5,9"/><polyline points="9.5,9 10.5,8 11.5,9"/></g></g>
+                </g>
+            </g>
+            <use href="#px-sparkle-h" x="-3" y="0" fill="#FFD700" style="--delay: 0s"/>
+            <use href="#px-sparkle-h" x="-6" y="6" fill="#FFA000" style="--delay: 0.4s"/>
+            <use href="#px-sparkle-h" x="0" y="-5" fill="#FFF59D" style="--delay: 0.8s"/>
+        </svg>
+
+        <!-- STATE: sleep -->
+        <svg class="state-svg" id="svg-sleep" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45">
+            <defs><style>
+                .doze-body { transform-origin: 7.5px 13px; animation: doze-breathe 4s infinite ease-in-out; }
+                .doze-shadow { transform-origin: 7.5px 15.5px; animation: doze-shadow 4s infinite ease-in-out; }
+                .arm-l-doze { transform-origin: 1px 10px; transform: translate(0px, 1px) rotate(-15deg); }
+                .arm-r-doze { transform-origin: 14px 10px; transform: translate(0px, 1px) rotate(15deg); }
+                @keyframes doze-breathe { 0%, 100% { transform: scale(1.05, 0.95) translate(0, 1px); } 50% { transform: scale(1.08, 0.92) translate(0, 1.8px); } }
+                @keyframes doze-shadow { 0%, 100% { transform: scaleX(1.05); opacity: 0.55; } 50% { transform: scaleX(1.08); opacity: 0.5; } }
+            </style></defs>
+            <rect class="doze-shadow" x="3" y="15" width="9" height="1" fill="#000000" opacity="0.55"/>
+            <g fill="#DE886D"><rect x="3" y="12" width="1" height="3"/><rect x="5" y="12" width="1" height="3"/><rect x="9" y="12" width="1" height="3"/><rect x="11" y="12" width="1" height="3"/></g>
+            <g class="doze-body">
+                <rect x="2" y="6" width="11" height="7" fill="#DE886D"/>
+                <g class="arm-l-doze"><rect x="0" y="9" width="2" height="2" fill="#DE886D"/></g>
+                <g class="arm-r-doze"><rect x="13" y="9" width="2" height="2" fill="#DE886D"/></g>
+                <g fill="#000000"><rect x="4" y="8.8" width="1.5" height="0.4"/><rect x="9.5" y="8.8" width="1.5" height="0.4"/></g>
+            </g>
+        </svg>
+
+    </div>
+</div>
+
+<script>
+const pet = document.getElementById('pet');
+const bubble = document.getElementById('bubble');
+
+const svgIdle = document.getElementById('svg-idle');
+const svgWalk = document.getElementById('svg-walk');
+const svgHappy = document.getElementById('svg-happy');
+const svgSleep = document.getElementById('svg-sleep');
+
+function showState(svg) {
+    [svgIdle, svgWalk, svgHappy, svgSleep].forEach(s => s.classList.remove('active'));
+    svg.classList.add('active');
+}
+
+// === PET ENGINE ===
+window.petEngine = {
+
+    onTap() {
+        pet.className = 'pet tap';
+        showState(svgWalk);
+        this.showBubble(this.randomFrom(['戳我干嘛', '哼', '溜了溜了', '再戳夹你', '嗯？']));
+        setTimeout(() => { pet.className = 'pet'; showState(svgIdle); }, 2000);
+    },
+
+    onDoubleTap() {
+        pet.className = 'pet happy';
+        showState(svgHappy);
+        this.showBubble(this.randomFrom(['♡', '哼...还行吧', '开心', '...你手挺快']));
+        setTimeout(() => { pet.className = 'pet'; showState(svgIdle); }, 3000);
+    },
+
+    onLongPress() {
+        showState(svgSleep);
+        this.showBubble(this.randomFrom(['...困了', 'zzZ...', '别按了...让我睡', '......']));
+        setTimeout(() => { showState(svgIdle); }, 5000);
+    },
+
+    _lastSeenAt: null,
+
+    onStateUpdate(states) {
+        if (!Array.isArray(states)) return;
+        const newStates = states.filter(s => {
+            if (!this._lastSeenAt) return true;
+            return s.updated_at > this._lastSeenAt;
+        });
+        if (newStates.length === 0) return;
+        this._lastSeenAt = states[0].updated_at;
+        for (const s of newStates) {
+            switch (s.state_key) {
+                case 'speech':
+                    this.showBubble(s.state_value);
+                    break;
+                case 'mood':
+                    this.setMood(s.state_value);
+                    break;
+                case 'action':
+                    this.doAction(s.state_value);
+                    break;
+            }
+        }
+    },
+
+    showBubble(text) {
+        bubble.textContent = text;
+        bubble.classList.add('show');
+        clearTimeout(this._bubbleTimer);
+        this._bubbleTimer = setTimeout(() => {
+            bubble.classList.remove('show');
+        }, 3000);
+    },
+
+    setMood(mood) {
+        switch (mood) {
+            case 'happy':
+                pet.className = 'pet happy';
+                showState(svgHappy);
+                setTimeout(() => { pet.className = 'pet'; showState(svgIdle); }, 3000);
+                break;
+            case 'sleepy':
+                pet.className = 'pet sleeping';
+                showState(svgSleep);
+                break;
+            case 'angry':
+                pet.className = 'pet tap';
+                showState(svgWalk);
+                setTimeout(() => { pet.className = 'pet'; showState(svgIdle); }, 2000);
+                break;
+            default:
+                pet.className = 'pet';
+                showState(svgIdle);
+        }
+    },
+
+    doAction(action) {
+        switch (action) {
+            case 'walk':
+                showState(svgWalk);
+                setTimeout(() => { showState(svgIdle); }, 4000);
+                break;
+            case 'sleep':
+                pet.className = 'pet sleeping';
+                showState(svgSleep);
+                this.showBubble('zzZ...');
+                break;
+            case 'wake':
+                pet.className = 'pet';
+                showState(svgIdle);
+                this.showBubble('...嗯？醒了');
+                break;
+            case 'happy':
+                showState(svgHappy);
+                setTimeout(() => { showState(svgIdle); }, 3000);
+                break;
+        }
+    },
+
+    randomFrom(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    },
+
+    _bubbleTimer: null
+};
+
+// Idle chatter every 30-60 seconds
+const idleLines = [
+    '...', '在看什么', '无聊', '要不要喝水',
+    '别刷了', '我在这呢', '哼', '看我一眼',
+    '你今天还没戳我', '困了'
+];
+function idleChat() {
+    if (pet.className.includes('sleeping')) return;
+    if (Math.random() < 0.3) {
+        window.petEngine.showBubble(
+            idleLines[Math.floor(Math.random() * idleLines.length)]
+        );
+    }
+    setTimeout(idleChat, 30000 + Math.random() * 30000);
+}
+setTimeout(idleChat, 10000);
+
+// Random walk every 20-40 seconds
+function randomWalk() {
+    if (pet.className.includes('sleeping')) { setTimeout(randomWalk, 20000); return; }
+    if (Math.random() < 0.2) {
+        showState(svgWalk);
+        setTimeout(() => { showState(svgIdle); }, 3000);
+    }
+    setTimeout(randomWalk, 20000 + Math.random() * 20000);
+}
+setTimeout(randomWalk, 15000);
+
+</script>
+</body>
+</html>
