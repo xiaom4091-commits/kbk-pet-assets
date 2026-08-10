@@ -317,22 +317,104 @@ window.petEngine = {
     _bubbleTimer: null
 };
 
-// Idle chatter every 30-60 seconds
-const idleLines = [
-    '...', '在看什么', '无聊', '要不要喝水',
-    '别刷了', '我在这呢', '哼', '看我一眼',
-    '你今天还没戳我', '困了'
-];
+// === TIME AWARENESS ===
+const timeLines = {
+    lateNight: ['都几点了还不睡', '你不困我困了', '再不睡我生气了', '快去睡觉...', '月亮都睡了你还醒着'],
+    morning: ['早安', '起来了？', '今天也要加油', '早上好 小猫', '新的一天开始了'],
+    forenoon: ['在忙吗', '加油工作', '认真的你最好看', '...我在看着你', '专注一点'],
+    lunch: ['该吃饭了', '别忘了吃午饭', '饿不饿', '中午了 休息一下', '去吃饭吧'],
+    afternoon: ['喝水了吗', '要不要休息一下', '下午容易困 撑住', '记得喝水', '伸个懒腰吧'],
+    evening: ['今天辛苦了', '晚上好', '放松一下吧', '我在这陪你', '今天过得怎么样'],
+    night: ['夜深了', '早点休息', '别熬太晚', '该准备睡了吧', '晚安...快去睡']
+};
+
+function getTimePeriod() {
+    const h = new Date().getHours();
+    if (h >= 0 && h < 6) return 'lateNight';
+    if (h >= 6 && h < 9) return 'morning';
+    if (h >= 9 && h < 12) return 'forenoon';
+    if (h >= 12 && h < 14) return 'lunch';
+    if (h >= 14 && h < 18) return 'afternoon';
+    if (h >= 18 && h < 22) return 'evening';
+    return 'night';
+}
+
 function idleChat() {
-    if (pet.className.includes('sleeping')) return;
+    if (pet.className.includes('sleeping')) { setTimeout(idleChat, 30000); return; }
     if (Math.random() < 0.3) {
-        window.petEngine.showBubble(
-            idleLines[Math.floor(Math.random() * idleLines.length)]
-        );
+        const period = getTimePeriod();
+        const lines = timeLines[period];
+        window.petEngine.showBubble(lines[Math.floor(Math.random() * lines.length)]);
+        // Late night: auto sleep after nagging
+        if (period === 'lateNight' && Math.random() < 0.4) {
+            setTimeout(() => { showState(svgSleep); pet.className = 'pet sleeping'; }, 3500);
+            setTimeout(() => { showState(svgIdle); pet.className = 'pet'; }, 8000);
+        }
     }
     setTimeout(idleChat, 30000 + Math.random() * 30000);
 }
-setTimeout(idleChat, 10000);
+setTimeout(idleChat, 8000);
+
+// === LONELINESS ENGINE ===
+let lastInteraction = Date.now();
+const lonelyLines = {
+    mild: ['...你在吗', '有点无聊', '看我一眼嘛'],
+    moderate: ['你是不是忘了我', '好久没理我了', '...哼', '我生气了'],
+    severe: ['算了 你忙吧', '我自己待着...', '不理我拉倒', '你不要我了吗']
+};
+
+function lonelinessCheck() {
+    if (pet.className.includes('sleeping')) { setTimeout(lonelinessCheck, 30000); return; }
+    const elapsed = (Date.now() - lastInteraction) / 60000; // minutes
+    if (elapsed > 20 && Math.random() < 0.5) {
+        const lines = lonelyLines.severe;
+        window.petEngine.showBubble(lines[Math.floor(Math.random() * lines.length)]);
+        // Sad auto-sleep
+        setTimeout(() => { showState(svgSleep); pet.className = 'pet sleeping'; }, 4000);
+        setTimeout(() => { showState(svgIdle); pet.className = 'pet'; }, 12000);
+    } else if (elapsed > 10 && Math.random() < 0.4) {
+        const lines = lonelyLines.moderate;
+        window.petEngine.showBubble(lines[Math.floor(Math.random() * lines.length)]);
+    } else if (elapsed > 5 && Math.random() < 0.3) {
+        const lines = lonelyLines.mild;
+        window.petEngine.showBubble(lines[Math.floor(Math.random() * lines.length)]);
+    }
+    setTimeout(lonelinessCheck, 45000 + Math.random() * 30000);
+}
+setTimeout(lonelinessCheck, 60000);
+
+// Reset loneliness on any interaction
+const origTap = window.petEngine.onTap.bind(window.petEngine);
+const origDouble = window.petEngine.onDoubleTap.bind(window.petEngine);
+const origLong = window.petEngine.onLongPress.bind(window.petEngine);
+window.petEngine.onTap = function() { lastInteraction = Date.now(); origTap(); };
+window.petEngine.onDoubleTap = function() { lastInteraction = Date.now(); origDouble(); };
+window.petEngine.onLongPress = function() { lastInteraction = Date.now(); origLong(); };
+
+// === COMBO TAP EASTER EGG ===
+let comboCount = 0;
+let comboTimer = null;
+const comboLines = [
+    '你够了', '手别这么快', '啊啊啊别戳了！', '投降投降！',
+    '再戳我报警了', '你是缝纫机吗', '救命！！'
+];
+const origTap2 = window.petEngine.onTap;
+window.petEngine.onTap = function() {
+    comboCount++;
+    clearTimeout(comboTimer);
+    comboTimer = setTimeout(() => { comboCount = 0; }, 1500);
+    if (comboCount >= 5) {
+        pet.className = 'pet happy';
+        showState(svgHappy);
+        this.showBubble(comboLines[Math.floor(Math.random() * comboLines.length)]);
+        setTimeout(() => { pet.className = 'pet'; showState(svgIdle); }, 3000);
+        comboCount = 0;
+        lastInteraction = Date.now();
+    } else {
+        lastInteraction = Date.now();
+        origTap2.call(this);
+    }
+};
 
 // Random walk every 20-40 seconds
 function randomWalk() {
