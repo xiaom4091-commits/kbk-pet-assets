@@ -2416,22 +2416,21 @@ function cycleHat() {
     window.petEngine.showBubble(names[hats[currentHatIdx]] || '换装！');
 }
 
-// Hook into tap for triple-tap hat switch
-const _origOnTap = window.petEngine.onTap.bind(window.petEngine);
-window.petEngine.onTap = function() {
-    tripleTapCount++;
-    clearTimeout(tripleTapTimer);
-    tripleTapTimer = setTimeout(() => { tripleTapCount = 0; }, 800);
-    if (tripleTapCount >= 3) {
-        tripleTapCount = 0;
+// Hook into doubleTap for hat switch (3 rapid double-taps)
+let hatDblCount = 0;
+let hatDblTimer = null;
+const _origOnDoubleTap = window.petEngine.onDoubleTap.bind(window.petEngine);
+window.petEngine.onDoubleTap = function() {
+    hatDblCount++;
+    clearTimeout(hatDblTimer);
+    hatDblTimer = setTimeout(() => { hatDblCount = 0; }, 1500);
+    if (hatDblCount >= 2) {
+        hatDblCount = 0;
         cycleHat();
         return;
     }
-    _origOnTap();
+    _origOnDoubleTap();
 };
-
-// Random hat on random behavior
-const _origRandomBehavior = typeof doRandomBehavior === 'function' ? doRandomBehavior : null;
 
 </script>
 </body>
