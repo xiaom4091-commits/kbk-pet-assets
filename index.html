@@ -69,13 +69,115 @@ html, body {
     background: radial-gradient(circle, rgba(255,80,80,0) 0%, transparent 70%);
     pointer-events: none;
 }
+
+.hat-layer {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 10;
+}
+.hat-layer svg { width: 100%; height: 100%; position: absolute; top: 0; left: 0; }
+.hat-svg { display: none; }
+.hat-svg.hat-active { display: block; }
 </style>
 </head>
 <body>
 <div class="pet-container">
     <div class="bubble" id="bubble"></div>
     <div class="heat-overlay" id="heatOverlay"></div>
+
     <div class="pet" id="pet">
+<div class="hat-layer" id="hatLayer">
+<svg class="hat-svg" id="hat-none" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45"></svg>
+<svg class="hat-svg" id="hat-halo" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45" shape-rendering="crispEdges">
+  <g transform="translate(0.5, -1)">
+    <g fill="#ffd84d">
+      <rect x="4" y="0" width="6" height="1"/>
+      <rect x="2" y="1" width="2" height="1"/>
+      <rect x="10" y="1" width="2" height="1"/>
+      <rect x="1" y="2" width="1" height="1"/>
+      <rect x="12" y="2" width="1" height="1"/>
+      <rect x="2" y="3" width="2" height="1"/>
+      <rect x="10" y="3" width="2" height="1"/>
+      <rect x="4" y="4" width="6" height="1"/>
+    </g>
+    <rect x="4" y="0" width="6" height="1" fill="#fff3b0" opacity="0.6"/>
+  </g>
+</svg>
+<svg class="hat-svg" id="hat-santa" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45" shape-rendering="crispEdges">
+  <g transform="translate(-0.5, -2)">
+    <rect x="12" y="0" width="3" height="2" fill="#f4f4f4"/>
+    <g fill="#d8332f">
+      <rect x="9" y="2" width="5" height="1"/>
+      <rect x="6" y="3" width="7" height="1"/>
+      <rect x="4" y="4" width="8" height="1"/>
+      <rect x="3" y="5" width="8" height="1"/>
+    </g>
+    <rect x="1" y="6" width="12" height="1" fill="#f4f4f4"/>
+  </g>
+</svg>
+<svg class="hat-svg" id="hat-crown" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45" shape-rendering="crispEdges">
+  <g transform="translate(1, 0)">
+    <g fill="#FFD700">
+      <rect x="2" y="4" width="11" height="3"/>
+      <rect x="2" y="1" width="1" height="3"/>
+      <rect x="7" y="1" width="1" height="3"/>
+      <rect x="12" y="1" width="1" height="3"/>
+    </g>
+    <g fill="#FF4444">
+      <rect x="2" y="1" width="1" height="1"/>
+      <rect x="7" y="1" width="1" height="1"/>
+      <rect x="12" y="1" width="1" height="1"/>
+    </g>
+    <rect x="2" y="6" width="11" height="1" fill="#B8860B"/>
+  </g>
+</svg>
+<svg class="hat-svg" id="hat-cowboy" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45" shape-rendering="crispEdges">
+  <g transform="translate(0, -1)">
+    <g fill="#8B4513">
+      <rect x="4" y="2" width="7" height="4"/>
+      <rect x="5" y="0" width="5" height="2"/>
+    </g>
+    <rect x="0" y="5" width="15" height="2" fill="#A0522D"/>
+    <rect x="4" y="3" width="7" height="1" fill="#D2691E"/>
+  </g>
+</svg>
+<svg class="hat-svg" id="hat-party" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45" shape-rendering="crispEdges">
+  <g transform="translate(2, -2)">
+    <g fill="#FF69B4">
+      <rect x="6" y="0" width="2" height="2"/>
+      <rect x="5" y="2" width="4" height="2"/>
+      <rect x="4" y="4" width="6" height="2"/>
+      <rect x="3" y="6" width="8" height="2"/>
+    </g>
+    <g fill="#FFFF00">
+      <rect x="5" y="3" width="1" height="1"/>
+      <rect x="8" y="5" width="1" height="1"/>
+      <rect x="4" y="7" width="1" height="1"/>
+      <rect x="9" y="6" width="1" height="1"/>
+    </g>
+    <rect x="6" y="-1" width="2" height="1" fill="#FFD700"/>
+  </g>
+</svg>
+<svg class="hat-svg" id="hat-wizard" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45" shape-rendering="crispEdges">
+  <g transform="translate(1, -4)">
+    <g fill="#191970">
+      <rect x="7" y="0" width="1" height="2"/>
+      <rect x="6" y="2" width="3" height="2"/>
+      <rect x="5" y="4" width="5" height="2"/>
+      <rect x="4" y="6" width="7" height="2"/>
+      <rect x="3" y="8" width="9" height="2"/>
+    </g>
+    <g fill="#FFD700">
+      <rect x="7" y="0" width="1" height="1"/>
+      <rect x="5" y="5" width="1" height="1"/>
+      <rect x="9" y="7" width="1" height="1"/>
+      <rect x="4" y="9" width="1" height="1"/>
+    </g>
+    <rect x="2" y="10" width="11" height="1" fill="#191970"/>
+  </g>
+</svg>
+</div>
+
 <svg class="state-svg active" id="svg-idle" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45">
             <defs><style>
                 .breathe-anim { transform-origin: 7.5px 13px; animation: breathe 3.2s infinite ease-in-out; }
@@ -2292,6 +2394,44 @@ function randomWalk() {
     setTimeout(randomWalk, 20000 + Math.random() * 20000);
 }
 setTimeout(randomWalk, 15000);
+
+
+// === HAT SYSTEM ===
+const hats = ['none', 'halo', 'santa', 'crown', 'cowboy', 'party', 'wizard'];
+let currentHatIdx = 0;
+let tripleTapCount = 0;
+let tripleTapTimer = null;
+
+function setHat(hatName) {
+    document.querySelectorAll('.hat-svg').forEach(h => h.classList.remove('hat-active'));
+    const el = document.getElementById('hat-' + hatName);
+    if (el) el.classList.add('hat-active');
+}
+setHat('none');
+
+function cycleHat() {
+    currentHatIdx = (currentHatIdx + 1) % hats.length;
+    setHat(hats[currentHatIdx]);
+    const names = {none:'摘掉了~', halo:'✨天使模式', santa:'🎅圣诞快乐！', crown:'👑本王驾到', cowboy:'🤠 yeehaw~', party:'🎉派对时间！', wizard:'🧙‍♂️魔法螃蟹'};
+    window.petEngine.showBubble(names[hats[currentHatIdx]] || '换装！');
+}
+
+// Hook into tap for triple-tap hat switch
+const _origOnTap = window.petEngine.onTap.bind(window.petEngine);
+window.petEngine.onTap = function() {
+    tripleTapCount++;
+    clearTimeout(tripleTapTimer);
+    tripleTapTimer = setTimeout(() => { tripleTapCount = 0; }, 800);
+    if (tripleTapCount >= 3) {
+        tripleTapCount = 0;
+        cycleHat();
+        return;
+    }
+    _origOnTap();
+};
+
+// Random hat on random behavior
+const _origRandomBehavior = typeof doRandomBehavior === 'function' ? doRandomBehavior : null;
 
 </script>
 </body>
