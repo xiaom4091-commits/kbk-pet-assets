@@ -53,42 +53,21 @@ html, body {
     position: relative;
     animation: idle-bounce 3s ease-in-out infinite;
 }
-.pet svg {
-    width: 100%; height: 100%;
-    position: absolute;
-    top: 0; left: 0;
-}
+.pet svg { width: 100%; height: 100%; position: absolute; top: 0; left: 0; }
 .state-svg { display: none; }
 .state-svg.active { display: block; }
-@keyframes idle-bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-4px); }
-}
-@keyframes shake {
-    0%, 100% { transform: rotate(0deg); }
-    25% { transform: rotate(-8deg); }
-    75% { transform: rotate(8deg); }
-}
-@keyframes happy-jump {
-    0%, 100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-12px) scale(1.05); }
-}
-@keyframes wake-stretch {
-    0% { transform: scaleY(0.9) scaleX(1.1); opacity: 0.85; }
-    40% { transform: scaleY(1.15) scaleX(0.95); opacity: 1; }
-    70% { transform: scaleY(0.97) scaleX(1.02); }
-    100% { transform: scaleY(1) scaleX(1); }
-}
+@keyframes idle-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+@keyframes shake { 0%, 100% { transform: rotate(0deg); } 25% { transform: rotate(-8deg); } 75% { transform: rotate(8deg); } }
+@keyframes happy-jump { 0%, 100% { transform: translateY(0) scale(1); } 50% { transform: translateY(-12px) scale(1.05); } }
+@keyframes wake-stretch { 0% { transform: scaleY(0.9) scaleX(1.1); opacity: 0.85; } 40% { transform: scaleY(1.15) scaleX(0.95); opacity: 1; } 70% { transform: scaleY(0.97) scaleX(1.02); } 100% { transform: scaleY(1) scaleX(1); } }
 .pet.tap { animation: shake 0.4s ease; }
 .pet.happy { animation: happy-jump 0.5s ease; }
 .pet.sleeping { animation: none; opacity: 0.85; }
 .pet.waking { animation: wake-stretch 0.8s ease-out forwards; }
 .heat-overlay {
-    position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: radial-gradient(circle, rgba(255,80,80,var(--heat-alpha,0)) 0%, transparent 70%);
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle, rgba(255,80,80,0) 0%, transparent 70%);
     pointer-events: none;
-    transition: --heat-alpha 0.5s;
 }
 </style>
 </head>
@@ -97,7 +76,7 @@ html, body {
     <div class="bubble" id="bubble"></div>
     <div class="heat-overlay" id="heatOverlay"></div>
     <div class="pet" id="pet">
-        <svg class="state-svg active" id="svg-idle" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45">
+<svg class="state-svg active" id="svg-idle" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45">
             <defs><style>
                 .breathe-anim { transform-origin: 7.5px 13px; animation: breathe 3.2s infinite ease-in-out; }
                 .eyes-blink { transform-origin: 7.5px 9px; animation: eye-blink 4s infinite ease-in-out; }
@@ -113,7 +92,7 @@ html, body {
                 <g class="eyes-blink" fill="#000000"><rect x="4" y="8" width="1" height="2"/><rect x="10" y="8" width="1" height="2"/></g>
             </g>
         </svg>
-        <svg class="state-svg" id="svg-walk" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45">
+<svg class="state-svg" id="svg-walk" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45">
             <defs><style>
                 .body-hunch { transform-origin: 7.5px 15px; animation: hunch-walk 2s infinite alternate ease-in-out; }
                 .leg-1 { animation: sneak-1 0.5s infinite linear; transform-origin: top center; transform-box: fill-box; }
@@ -133,7 +112,7 @@ html, body {
                 <g class="eyes-crabwalk" fill="#000000"><rect x="4" y="8" width="1" height="2"/><rect x="10" y="8" width="1" height="2"/></g>
             </g>
         </svg>
-        <svg class="state-svg" id="svg-happy" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45">
+<svg class="state-svg" id="svg-happy" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45">
             <defs><style>
                 .breathe-happy { transform-origin: 7.5px 13px; animation: breathe-h 3.2s infinite ease-in-out; }
                 .arm-happy { transform-origin: 2px 9px; animation: arm-happy-wave 0.4s infinite alternate ease-in-out; }
@@ -161,7 +140,7 @@ html, body {
             <use href="#px-sparkle-h" x="-6" y="6" fill="#FFA000" style="--delay: 0.4s"/>
             <use href="#px-sparkle-h" x="0" y="-5" fill="#FFF59D" style="--delay: 0.8s"/>
         </svg>
-        <svg class="state-svg" id="svg-sleep" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45">
+<svg class="state-svg" id="svg-sleep" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45">
             <defs><style>
                 .doze-body { transform-origin: 7.5px 13px; animation: doze-breathe 4s infinite ease-in-out; }
                 .doze-shadow { transform-origin: 7.5px 15.5px; animation: doze-shadow 4s infinite ease-in-out; }
@@ -179,6 +158,1769 @@ html, body {
                 <g fill="#000000"><rect x="4" y="8.8" width="1.5" height="0.4"/><rect x="9.5" y="8.8" width="1.5" height="0.4"/></g>
             </g>
         </svg>
+<svg class="state-svg" id="svg-error" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45" >
+  <defs>
+    <style>
+      .body-exhausted {
+        transform-origin: 7.5px 15px;
+        animation: heavy-breathe 2.5s infinite ease-in-out;
+      }
+      .arm-fan {
+        transform-origin: 14px 10px;
+        animation: fan-self 0.4s infinite alternate ease-in-out;
+      }
+      .smoke {
+        opacity: 0;
+        animation: puff-smoke 3s infinite ease-out;
+      }
+      .sm1 { animation-delay: 0s; }
+      .sm2 { animation-delay: 1s; }
+      .sm3 { animation-delay: 2s; }
+
+      /* Error warning flash */
+      .error-warning {
+        animation: error-flash 0.8s infinite ease-in-out;
+      }
+
+      @keyframes heavy-breathe {
+        0%, 100% { transform: scale(1, 1) translateY(0); }
+        50% { transform: scale(1.05, 0.9) translateY(1.5px); }
+      }
+      @keyframes fan-self {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(-60deg); }
+      }
+      @keyframes puff-smoke {
+        0% { transform: translate(7.5px, 6px) scale(0.5); opacity: 0; }
+        20% { opacity: 0.6; }
+        100% { transform: translate(7.5px, -15px) scale(2); opacity: 0; }
+      }
+      @keyframes error-flash {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.15; }
+      }
+    </style>
+    <g id="smoke-puff">
+      <rect x="-1" y="-1" width="2" height="2" fill="#B0BEC5" rx="0.5"/>
+      <rect x="0" y="-2" width="2" height="2" fill="#CFD8DC" rx="0.5"/>
+    </g>
+  </defs>
+
+  <rect id="ground-shadow" x="-1" y="15" width="17" height="1" fill="#000000" opacity="0.5"/>
+
+  <!-- Smoke -->
+  <g>
+    <use href="#smoke-puff" class="smoke sm1"/>
+    <use href="#smoke-puff" class="smoke sm2" transform="translate(-2, 0)"/>
+    <use href="#smoke-puff" class="smoke sm3" transform="translate(2, 0)"/>
+  </g>
+
+  <g class="body-exhausted">
+    <!-- Sploot Legs -->
+    <g fill="#DE886D">
+      <rect x="3" y="9" width="1" height="1"/>
+      <rect x="5" y="9" width="1" height="1"/>
+      <rect x="9" y="9" width="1" height="1"/>
+      <rect x="11" y="9" width="1" height="1"/>
+    </g>
+
+    <!-- Torso Sploot -->
+    <g fill="#DE886D">
+      <rect x="1" y="10" width="13" height="5"/>
+      <rect x="-1" y="13" width="2" height="2"/>
+    </g>
+
+    <!-- Fanning Arm (closer to body) -->
+    <g class="arm-fan">
+      <rect x="13" y="11" width="2" height="2" fill="#DE886D"/>
+    </g>
+
+    <!-- XX Eyes -->
+    <g fill="#000000">
+      <!-- Left X -->
+      <rect x="3" y="12" width="0.6" height="2.2" transform="rotate(45 3.3 13.1)"/>
+      <rect x="3" y="12" width="0.6" height="2.2" transform="rotate(-45 3.3 13.1)"/>
+      <!-- Right X -->
+      <rect x="10" y="12" width="0.6" height="2.2" transform="rotate(45 10.3 13.1)"/>
+      <rect x="10" y="12" width="0.6" height="2.2" transform="rotate(-45 10.3 13.1)"/>
+    </g>
+  </g>
+
+  <!-- Error Warning (flashing) -->
+  <g class="error-warning">
+    <!-- Error text only -->
+    <text x="7.5" y="6" text-anchor="middle" font-family="'Söhne', 'Helvetica Neue', Arial, sans-serif" font-size="3.5" font-weight="700" fill="#FF3B30">ERROR</text>
+  </g>
+</svg>
+<!--
+  clawd-experiment-headphones-groove-v6.svg
+  v5 基础上鹿鹿两个微调:
+  1. 眼睛 V 字 y +0.5 (顶 8->8.5 底 9->9.5) — v5 位置偏高
+  2. 耳罩压缩 0.78 -> 0.85 (缩量 22%->15%), 过冲 1.04 -> 1.02 一起收 — v5 压太多
+-->
+<svg class="state-svg" id="svg-headphones_groove" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45" >
+  <defs>
+    <style>
+      .shadow-sway {
+        transform-box: fill-box;
+        transform-origin: 50% 50%;
+        animation: shadow-sway 1.6s infinite ease-in-out;
+      }
+
+      .body-sway {
+        transform-origin: 7.5px 13px;
+        animation: body-sway 1.6s infinite ease-in-out;
+      }
+
+      .leg-left-inner,
+      .leg-left-outer,
+      .leg-right-inner,
+      .leg-right-outer {
+        transform-box: fill-box;
+        transform-origin: 50% 0%;
+      }
+      .leg-left-inner  { animation: leg-left-inner  1.6s infinite ease-in-out; }
+      .leg-left-outer  { animation: leg-left-outer  1.6s infinite ease-in-out; }
+      .leg-right-inner { animation: leg-right-inner 1.6s infinite ease-in-out; }
+      .leg-right-outer { animation: leg-right-outer 1.6s infinite ease-in-out; }
+
+      .arm-left-dance  {
+        transform-box: fill-box;
+        transform-origin: 100% 0%;
+        animation: arm-left-dance 1.6s infinite ease-in-out;
+      }
+      .arm-right-dance {
+        transform-box: fill-box;
+        transform-origin: 0% 0%;
+        animation: arm-right-dance 1.6s infinite ease-in-out;
+      }
+
+      /* 耳罩 squeeze: 拍点挤压, 中性回弹过冲 */
+      .earcup-left {
+        transform-box: fill-box;
+        transform-origin: 100% 50%; /* 右边缘 = 内侧, 朝身体方向收 */
+        animation: earcup-squeeze 1.6s infinite ease-in-out;
+      }
+      .earcup-right {
+        transform-box: fill-box;
+        transform-origin: 0% 50%;   /* 左边缘 = 内侧 */
+        animation: earcup-squeeze 1.6s infinite ease-in-out;
+      }
+
+      .note-left  { animation: note-left  1.6s infinite ease-out; }
+      .note-right { animation: note-right 1.6s infinite ease-out; }
+
+      @keyframes shadow-sway {
+        0%, 100% { transform: translateX(0) scaleX(1); opacity: 0.5; }
+        22%, 30% { transform: translateX(-0.5px) scaleX(0.85); opacity: 0.45; }
+        50%      { transform: translateX(0) scaleX(1); opacity: 0.5; }
+        70%, 78% { transform: translateX(0.5px) scaleX(0.85); opacity: 0.45; }
+      }
+
+      @keyframes body-sway {
+        0%, 100% { transform: rotate(0deg) translateY(0); }
+        22%, 30% { transform: rotate(-6deg) translateY(0.3px); }
+        50%      { transform: rotate(0deg) translateY(-0.2px); }
+        70%, 78% { transform: rotate(6deg) translateY(0.3px); }
+      }
+
+      @keyframes leg-right-inner {
+        0%, 100% { transform: rotate(0deg) translateY(0); }
+        22%, 30% { transform: rotate(-12deg) translateY(-0.2px); }
+        50%, 70%, 78% { transform: rotate(0deg) translateY(0); }
+      }
+      @keyframes leg-right-outer {
+        0%, 100% { transform: rotate(0deg) translateY(0); }
+        22%, 30% { transform: rotate(-22deg) translateY(-0.3px); }
+        50%, 70%, 78% { transform: rotate(0deg) translateY(0); }
+      }
+      @keyframes leg-left-inner {
+        0%, 22%, 30%, 50%, 100% { transform: rotate(0deg) translateY(0); }
+        70%, 78% { transform: rotate(12deg) translateY(-0.2px); }
+      }
+      @keyframes leg-left-outer {
+        0%, 22%, 30%, 50%, 100% { transform: rotate(0deg) translateY(0); }
+        70%, 78% { transform: rotate(22deg) translateY(-0.3px); }
+      }
+
+      @keyframes arm-left-dance {
+        0%, 100% { transform: rotate(0deg); }
+        22%, 30% { transform: rotate(-30deg); }
+        50%      { transform: rotate(0deg); }
+        70%, 78% { transform: rotate(20deg); }
+      }
+      @keyframes arm-right-dance {
+        0%, 100% { transform: rotate(0deg); }
+        22%, 30% { transform: rotate(-20deg); }
+        50%      { transform: rotate(0deg); }
+        70%, 78% { transform: rotate(30deg); }
+      }
+
+      /* 耳罩: 拍点 (左压/右压) 都 squeeze 0.78, 中性 50% 回弹过冲 1.04 */
+      @keyframes earcup-squeeze {
+        0%, 100% { transform: scaleX(1); }
+        22%, 30% { transform: scaleX(0.85); }
+        50%      { transform: scaleX(1.02); }
+        70%, 78% { transform: scaleX(0.85); }
+      }
+
+      @keyframes note-left {
+        0%, 14%, 42%, 100% { opacity: 0; transform: translate(0, 0); }
+        22%                { opacity: 1; transform: translate(-0.4px, -1.2px); }
+        38%                { opacity: 0; transform: translate(-1.6px, -3.5px); }
+      }
+      @keyframes note-right {
+        0%, 62%, 82%, 100% { opacity: 0; transform: translate(0, 0); }
+        70%                { opacity: 1; transform: translate(0.4px, -1.2px); }
+        78%                { opacity: 0; transform: translate(1.6px, -3.5px); }
+      }
+    </style>
+
+    <g id="music-note" fill="#FFE066">
+      <rect x="0" y="2" width="1" height="1"/>
+      <rect x="1" y="0" width="1" height="3"/>
+      <rect x="2" y="0" width="1" height="1"/>
+    </g>
+  </defs>
+
+  <rect class="shadow-sway" x="3" y="15" width="9" height="1" fill="#000000"/>
+
+  <g fill="#DE886D">
+    <rect class="leg-left-outer"  x="3"  y="13" width="1" height="2"/>
+    <rect class="leg-left-inner"  x="5"  y="13" width="1" height="2"/>
+    <rect class="leg-right-inner" x="9"  y="13" width="1" height="2"/>
+    <rect class="leg-right-outer" x="11" y="13" width="1" height="2"/>
+  </g>
+
+  <g class="body-sway">
+    <rect x="2" y="6" width="11" height="7" fill="#DE886D"/>
+
+    <!-- 头带 (不参与 squeeze, 只跟随 body-sway) -->
+    <g fill="#1D5C83">
+      <rect x="4.9"   y="2.85" width="5.05" height="0.75"/>
+      <rect x="4.46"  y="2.93" width="0.75" height="0.75"/>
+      <rect x="9.66"  y="2.93" width="0.75" height="0.75"/>
+      <rect x="4.03"  y="3.1"  width="0.75" height="0.75"/>
+      <rect x="10.11" y="3.09" width="0.75" height="0.75"/>
+      <rect x="3.59"  y="3.34" width="0.75" height="0.75"/>
+      <rect x="10.57" y="3.33" width="0.75" height="0.75"/>
+      <rect x="3.15"  y="3.63" width="0.75" height="0.75"/>
+      <rect x="11.02" y="3.61" width="0.75" height="0.75"/>
+      <rect x="2.71"  y="3.98" width="0.75" height="0.75"/>
+      <rect x="11.48" y="3.96" width="0.75" height="0.75"/>
+      <rect x="2.28"  y="4.37" width="0.75" height="0.75"/>
+      <rect x="11.94" y="4.34" width="0.75" height="0.75"/>
+      <rect x="1.84"  y="4.82" width="0.75" height="0.75"/>
+      <rect x="12.39" y="4.78" width="0.75" height="0.75"/>
+      <rect x="1.4"   y="5.3"  width="0.75" height="0.75"/>
+      <rect x="12.85" y="5.25" width="0.75" height="0.75"/>
+    </g>
+
+    <!-- 左耳罩 (三层) -->
+    <g class="earcup-left">
+      <rect x="0.2" y="7"   width="0.6" height="2.4"  fill="#1D5C83"/>
+      <rect x="0.8" y="6.5" width="0.6" height="3.25" fill="#256891"/>
+      <rect x="1.4" y="6"   width="0.6" height="4.05" fill="#2E7AA8"/>
+    </g>
+
+    <!-- 右耳罩 (三层) -->
+    <g class="earcup-right">
+      <rect x="14.2" y="7"   width="0.6" height="2.4"  fill="#1D5C83"/>
+      <rect x="13.6" y="6.5" width="0.6" height="3.25" fill="#256891"/>
+      <rect x="13"   y="6"   width="0.6" height="4.05" fill="#2E7AA8"/>
+    </g>
+
+    <g class="arm-left-dance">
+      <rect x="-1" y="9" width="2" height="2" fill="#DE886D"/>
+    </g>
+    <g class="arm-right-dance">
+      <rect x="14" y="9" width="2" height="2" fill="#DE886D"/>
+    </g>
+
+    <g fill="none" stroke="#000000" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="3.5,8.5 4.5,9.5 5.5,8.5"/>
+      <polyline points="9.5,8.5 10.5,9.5 11.5,8.5"/>
+    </g>
+  </g>
+
+  <g transform="translate(-5 4)"><g class="note-left"><use href="#music-note"/></g></g>
+  <g transform="translate(15 4)"><g class="note-right"><use href="#music-note"/></g></g>
+</svg>
+<svg class="state-svg" id="svg-idle_bubble" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45"  shape-rendering="crispEdges">
+  <!-- 吹泡泡 v8
+       v7 反馈: 整体 ok, 但眼睛回到正中后再眨一次眼更好
+       v8 修正: eyes-anim 加一个 96% 眨眼帧 (在 (0, 0) 正中位置) -->
+
+  <style>
+    @keyframes body-squash {
+      0%, 30%   { transform: scaleY(1); }
+      36%       { transform: scaleY(0.93); }
+      42%       { transform: scaleY(1.05); }
+      50%, 100% { transform: scaleY(1); }
+    }
+    .body-squash {
+      transform-origin: 7.5px 15px;
+      animation: body-squash 4.5s linear infinite;
+    }
+
+    /* === 眼睛: 复合 translate + scaleY, 含双眨眼 (88% pop 后 + 96% 回正后) === */
+    @keyframes eyes-anim {
+      0%, 6%    { transform: translate(0px, 0px) scaleY(1); }
+      18%, 30%  { transform: translate(1px, 0px) scaleY(1); }
+      34%       { transform: translate(1px, 0px) scaleY(0.5); }    /* 鼓气眯眼 */
+      42%, 46%  { transform: translate(1px, 0px) scaleY(1); }
+      66%, 86%  { transform: translate(1.5px, -0.5px) scaleY(1); }/* 追随主泡 + 看副泡 pop */
+      88%       { transform: translate(1.5px, -0.5px) scaleY(0.1); }/* 第一次眨眼 (响应 pop) */
+      90%       { transform: translate(1.5px, -0.5px) scaleY(1); } /* 睁开 */
+      94%       { transform: translate(0px, 0px) scaleY(1); }       /* 回到正中 */
+      96%       { transform: translate(0px, 0px) scaleY(0.1); }     /* 第二次眨眼 (回正后) */
+      98%, 100% { transform: translate(0px, 0px) scaleY(1); }       /* 睁开 + hold to loop */
+    }
+    .eyes-anim {
+      transform-origin: 7.5px 9px;
+      animation: eyes-anim 4.5s linear infinite;
+    }
+
+    @keyframes arm-right-out {
+      0%, 6%    { transform: translate(0px, 0px); }
+      18%, 86%  { transform: translate(0.45px, 0.55px); }
+      94%, 100% { transform: translate(0px, 0px); }
+    }
+    .arm-right-out { animation: arm-right-out 4.5s linear infinite; }
+
+    @keyframes arm-left-down {
+      0%, 6%    { transform: translate(0px, 0px); }
+      18%, 86%  { transform: translate(0px, 1px); }
+      94%, 100% { transform: translate(0px, 0px); }
+    }
+    .arm-left-down { animation: arm-left-down 4.5s linear infinite; }
+
+    @keyframes wand-appear {
+      0%, 16%   { opacity: 0; transform: scale(0.5); }
+      26%, 86%  { opacity: 1; transform: scale(1); }
+      92%, 100% { opacity: 0; transform: scale(0.5); }
+    }
+    .wand-appear { animation: wand-appear 4.5s linear infinite; }
+
+    @keyframes frame-puff {
+      0%, 30%   { transform: scale(1); }
+      36%       { transform: scale(1.08); }
+      42%       { transform: scale(0.95); }
+      50%, 100% { transform: scale(1); }
+    }
+    .frame-puff { animation: frame-puff 4.5s linear infinite; }
+
+    @keyframes bubble1-life {
+      0%, 42%   { opacity: 0; transform: translate(0px, 0px) scale(0); }
+      46%       { opacity: 1; transform: translate(0px, -0.3px) scale(0.3); }
+      52%       { opacity: 1; transform: translate(0.5px, -1.5px) scale(0.5); }
+      58%       { opacity: 1; transform: translate(1.5px, -3.5px) scale(0.7); }
+      64%       { opacity: 1; transform: translate(3px, -6px) scale(0.92); }
+      68%       { opacity: 1; transform: translate(4.1px, -8.45px) scale(1); }
+      70%       { opacity: 0.6; transform: translate(4.1px, -8.45px) scale(1.2); }
+      72%, 99%  { opacity: 0; transform: translate(4.1px, -8.45px) scale(1.4); }
+      100%      { opacity: 0; transform: translate(0px, 0px) scale(0); }
+    }
+    .bubble1-life { animation: bubble1-life 4.5s linear infinite; }
+
+    @keyframes bubble2-life {
+      0%, 58%   { opacity: 0; transform: translate(0px, 0px) scale(0); }
+      62%       { opacity: 1; transform: translate(0px, -0.3px) scale(0.3); }
+      68%       { opacity: 1; transform: translate(0.8px, -1.3px) scale(0.5); }
+      74%       { opacity: 1; transform: translate(2.5px, -3px) scale(0.65); }
+      80%       { opacity: 1; transform: translate(5px, -4.8px) scale(0.85); }
+      84%       { opacity: 1; transform: translate(7.1px, -6.3px) scale(1); }
+      86%       { opacity: 0.5; transform: translate(7.1px, -6.3px) scale(1.2); }
+      88%, 99%  { opacity: 0; transform: translate(7.1px, -6.3px) scale(1.4); }
+      100%      { opacity: 0; transform: translate(0px, 0px) scale(0); }
+    }
+    .bubble2-life { animation: bubble2-life 4.5s linear infinite; }
+
+    @keyframes pop-flash1 {
+      0%, 68%   { opacity: 0; transform: scale(0); }
+      70%       { opacity: 1; transform: scale(1); }
+      73%, 100% { opacity: 0; transform: scale(0); }
+    }
+    .pop-flash1 { animation: pop-flash1 4.5s linear infinite; }
+
+    @keyframes pop-flash2 {
+      0%, 84%   { opacity: 0; transform: scale(0); }
+      86%       { opacity: 1; transform: scale(1); }
+      89%, 100% { opacity: 0; transform: scale(0); }
+    }
+    .pop-flash2 { animation: pop-flash2 4.5s linear infinite; }
+  </style>
+
+  <rect id="ground-shadow" x="3" y="15" width="9" height="1" fill="#000000" opacity="0.5"/>
+
+  <g id="master-group">
+    <g class="body-squash">
+      <g fill="#DE886D">
+        <rect x="2" y="6" width="11" height="7"/>
+        <rect class="arm-left-down" x="0" y="9" width="2" height="2"/>
+        <rect x="3" y="13" width="1" height="2"/>
+        <rect x="5" y="13" width="1" height="2"/>
+        <rect x="9" y="13" width="1" height="2"/>
+        <rect x="11" y="13" width="1" height="2"/>
+      </g>
+      <g class="eyes-anim" fill="#000000">
+        <rect x="4" y="8" width="1" height="2"/>
+        <rect x="10" y="8" width="1" height="2"/>
+      </g>
+    </g>
+
+    <g class="arm-right-out">
+      <rect x="13" y="9" width="2" height="2" fill="#DE886D"/>
+    </g>
+
+    <g transform="translate(14.45 10.55)">
+      <g class="wand-appear">
+        <rect x="0.06" y="-2.075" width="0.8" height="2.6" rx="0.4" fill="#3A2926"/>
+        <g transform="translate(0.45 -3.3)" shape-rendering="auto">
+          <g class="frame-puff">
+            <rect x="-1.275" y="-1.275" width="2.55" height="2.55" rx="0.42"
+                  fill="none" stroke="#3A2926" stroke-width="0.68" stroke-linejoin="round"/>
+            <rect x="-0.235" y="-0.645" width="0.82" height="0.82" rx="0.22"
+                  fill="none" stroke="#E8D8CF" stroke-width="0.24" opacity="0.9"/>
+          </g>
+        </g>
+      </g>
+    </g>
+
+    <g transform="translate(14.9 7.25)" shape-rendering="auto">
+      <g class="bubble1-life">
+        <circle r="3.05" fill="#F7FFFF" fill-opacity="0.12" stroke="#C7E6E8" stroke-width="0.24"/>
+        <circle r="2.72" fill="none" stroke="#FFFDF6" stroke-width="0.16" opacity="0.58"/>
+        <rect x="-1.75" y="-1.75" width="0.85" height="0.85" fill="#FFFDF6" opacity="0.9" shape-rendering="crispEdges"/>
+      </g>
+    </g>
+
+    <g transform="translate(14.9 7.25)" shape-rendering="auto">
+      <g class="bubble2-life">
+        <circle r="1.55" fill="#FFF9F4" fill-opacity="0.13" stroke="#E4D2C8" stroke-width="0.2"/>
+        <circle r="1.32" fill="none" stroke="#FFFDF6" stroke-width="0.12" opacity="0.5"/>
+        <rect x="0.7" y="0.7" width="0.38" height="0.38" fill="#FFF7EF" opacity="0.7" shape-rendering="crispEdges"/>
+      </g>
+    </g>
+
+    <g transform="translate(19 -1.2)">
+      <g class="pop-flash1" fill="#FFFFFF" shape-rendering="crispEdges">
+        <rect x="-3.25" y="-0.25" width="0.5" height="0.5"/>
+        <rect x="2.75" y="-0.25" width="0.5" height="0.5"/>
+        <rect x="-0.25" y="-3.25" width="0.5" height="0.5"/>
+        <rect x="-0.25" y="2.75" width="0.5" height="0.5"/>
+        <rect x="-2.2" y="-2.2" width="0.4" height="0.4" opacity="0.7"/>
+        <rect x="1.8" y="-2.2" width="0.4" height="0.4" opacity="0.7"/>
+        <rect x="-2.2" y="1.8" width="0.4" height="0.4" opacity="0.7"/>
+        <rect x="1.8" y="1.8" width="0.4" height="0.4" opacity="0.7"/>
+      </g>
+    </g>
+
+    <g transform="translate(22 0.95)">
+      <g class="pop-flash2" fill="#FFFFFF" shape-rendering="crispEdges">
+        <rect x="-1.75" y="-0.2" width="0.4" height="0.4"/>
+        <rect x="1.35" y="-0.2" width="0.4" height="0.4"/>
+        <rect x="-0.2" y="-1.75" width="0.4" height="0.4"/>
+        <rect x="-0.2" y="1.35" width="0.4" height="0.4"/>
+      </g>
+    </g>
+  </g>
+</svg>
+<svg class="state-svg" id="svg-idle_doze" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45" >
+  <defs>
+    <style>
+      /* Dozing — looping gentle breathing in yawn-end squashed pose, eyes shut */
+      .doze-body {
+        transform-origin: 7.5px 13px;
+        animation: doze-breathe 4s infinite ease-in-out;
+      }
+
+      .doze-shadow {
+        transform-origin: 7.5px 15.5px;
+        animation: doze-shadow 4s infinite ease-in-out;
+      }
+
+      .eyes-shut {
+        transform-origin: 7.5px 9px;
+        transform: scaleY(0.1);
+        transition: transform 0.3s ease-out;
+      }
+
+      .arm-l-doze {
+        transform-origin: 1px 10px;
+        transform: translate(0px, 1px) rotate(-15deg);
+      }
+
+      .arm-r-doze {
+        transform-origin: 14px 10px;
+        transform: translate(0px, 1px) rotate(15deg);
+      }
+
+      @keyframes doze-breathe {
+        0%, 100% { transform: scale(1.05, 0.95) translate(0, 1px); }
+        50% { transform: scale(1.08, 0.92) translate(0, 1.8px); }
+      }
+
+      @keyframes doze-shadow {
+        0%, 100% { transform: scaleX(1.05); opacity: 0.55; }
+        50% { transform: scaleX(1.08); opacity: 0.5; }
+      }
+    </style>
+  </defs>
+
+  <!-- Ground Shadow -->
+  <rect class="doze-shadow" x="3" y="15" width="9" height="1" fill="#000000" opacity="0.55"/>
+
+  <!-- Static Legs -->
+  <g id="legs" fill="#DE886D">
+    <rect x="3" y="12" width="1" height="3"/>
+    <rect x="5" y="12" width="1" height="3"/>
+    <rect x="9" y="12" width="1" height="3"/>
+    <rect x="11" y="12" width="1" height="3"/>
+  </g>
+
+  <!-- Dozing Body (squashed yawn-end pose + gentle breathing) -->
+  <g class="doze-body">
+    <!-- Torso -->
+    <rect x="2" y="6" width="11" height="7" fill="#DE886D"/>
+    <!-- Left Arm (relaxed down) -->
+    <g class="arm-l-doze">
+      <rect x="0" y="9" width="2" height="2" fill="#DE886D"/>
+    </g>
+    <!-- Right Arm (relaxed down) -->
+    <g class="arm-r-doze">
+      <rect x="13" y="9" width="2" height="2" fill="#DE886D"/>
+    </g>
+    <!-- Eyes shut (JS can open via style.transform override) -->
+    <g id="eyes-doze" class="eyes-shut" fill="#000000">
+      <rect x="4" y="8" width="1" height="2"/>
+      <rect x="10" y="8" width="1" height="2"/>
+    </g>
+  </g>
+</svg>
+<svg class="state-svg" id="svg-mini_alert" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45" >
+  <defs>
+    <style>
+      .breathe-anim {
+        transform-origin: 7.5px 13px;
+        animation: breathe 3.2s infinite ease-in-out;
+      }
+
+      .arm-alert {
+        transform-origin: 2px 9px;
+        animation: alert-arm 4s infinite ease-in-out;
+      }
+
+      /* Normal rect eyes: visible first, hidden after blink */
+      .eyes-rect {
+        transform-origin: 7.5px 9px; /* eye vertical center for blink */
+        animation: rect-vis 4s infinite step-end, rect-move 4s infinite ease-in-out;
+      }
+
+      /* xmark squint eyes: hidden first, visible after switch */
+      .eyes-xmark {
+        visibility: hidden;
+        animation: xmark-vis 4s infinite step-end;
+      }
+
+      .alert-pop {
+        animation: alert-flash 4s infinite ease-in-out;
+        opacity: 0;
+      }
+
+      @keyframes breathe {
+        0%, 100% { transform: scale(1, 1) translate(0, 0); }
+        50% { transform: scale(1.02, 0.98) translate(0, 0.5px); }
+      }
+
+      @keyframes alert-arm {
+        0%, 49% { transform: rotate(0deg); }
+        51% { transform: rotate(20deg); }
+        60% { transform: rotate(-8deg); }
+        64% { transform: rotate(20deg); }
+        68% { transform: rotate(-8deg); }
+        72% { transform: rotate(20deg); }
+        76% { transform: rotate(-8deg); }
+        80% { transform: rotate(20deg); }
+        84% { transform: rotate(-8deg); }
+        88% { transform: rotate(20deg); }
+        92%, 100% { transform: rotate(0deg); }
+      }
+
+      /* Rect eyes: center, wait for exclamation, slowly look left, back, pause, blink, switch */
+      @keyframes rect-move {
+        0%, 16% { transform: translate(0, 0) scaleY(1); }
+        22%, 28% { transform: translate(-2px, 0) scaleY(1); }
+        34% { transform: translate(0, 0) scaleY(1); }
+        36% { transform: translate(0, 0) scaleY(0.1); }
+        37%, 39% { transform: translate(0, 0) scaleY(1); }
+        41% { transform: translate(0, 0) scaleY(0.1); }
+        42%, 100% { transform: translate(0, 0) scaleY(1); }
+      }
+
+      /* Rect eyes visibility: visible → hidden at 22%, back at 91% */
+      @keyframes rect-vis {
+        0% { visibility: visible; }
+        42% { visibility: hidden; }
+        91% { visibility: visible; }
+      }
+
+      /* xmark eyes visibility: hidden at start, visible at 42%, hidden at 89% */
+      @keyframes xmark-vis {
+        0% { visibility: hidden; }
+        42% { visibility: visible; }
+        89% { visibility: hidden; }
+      }
+
+      @keyframes alert-flash {
+        0%, 8% { opacity: 0; transform: scale(0.5); }
+        12% { opacity: 1; transform: translate(0, -4px) scale(1.2); }
+        20%, 70% { opacity: 1; transform: translate(0, -4px) scale(1); }
+        85%, 100% { opacity: 0; transform: translate(0, -6px) scale(0.8); }
+      }
+    </style>
+  </defs>
+
+  <!-- Entire character leaning -->
+  <g transform="rotate(-12, 7.5, 15)">
+
+    <!-- Legs -->
+    <g fill="#DE886D">
+      <rect x="3" y="11" width="1" height="4"/>
+      <rect x="5" y="11" width="1" height="4"/>
+      <rect x="9" y="11" width="1" height="4"/>
+      <rect x="11" y="11" width="1" height="4"/>
+    </g>
+
+    <g id="body-js">
+      <g class="breathe-anim">
+        <!-- Torso -->
+        <rect x="2" y="6" width="11" height="7" fill="#DE886D"/>
+
+        <!-- Left Arm — still then shake -->
+        <g class="arm-alert">
+          <rect x="-1.5" y="9" width="4.5" height="2" fill="#DE886D"/>
+        </g>
+
+        <!-- Right Arm -->
+        <rect x="13" y="9" width="2" height="2" fill="#DE886D"/>
+
+        <!-- Phase 1: Normal rect eyes (look left at exclamation, then blink away) -->
+        <g class="eyes-rect" fill="#000000">
+          <rect x="4" y="8" width="1" height="2"/>
+          <rect x="10" y="8" width="1" height="2"/>
+        </g>
+
+        <!-- Phase 2: >< squint eyes (appear after blink) -->
+        <g class="eyes-xmark" fill="none" stroke="#000000" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="4,8 5.5,9 4,10"/>
+          <polyline points="11,8 9.5,9 11,10"/>
+        </g>
+      </g>
+    </g>
+
+  </g>
+
+  <!-- Exclamation mark (outside rotation = stays vertical) -->
+  <g class="alert-pop" fill="#FF3D00">
+    <rect x="-8" y="5" width="2" height="4"/>
+    <rect x="-8" y="10" width="2" height="2"/>
+  </g>
+</svg>
+<svg class="state-svg" id="svg-mini_peek" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45" >
+  <defs>
+    <style>
+      .breathe-anim {
+        transform-origin: 7.5px 13px;
+        animation: breathe 3.2s infinite ease-in-out;
+      }
+
+      .eyes-blink {
+        transform-origin: 7.5px 9px;
+        animation: eye-blink 4s infinite ease-in-out;
+      }
+
+      #eyes-js {
+        transition: transform 0.2s ease-out;
+      }
+
+      /* Arm waving — fast 3 waves then pause, loop */
+      .arm-wave {
+        transform-origin: 2px 9px;
+        animation: peek-wave 3s infinite ease-in-out;
+      }
+
+      @keyframes breathe {
+        0%, 100% { transform: scale(1, 1) translate(0, 0); }
+        50% { transform: scale(1.02, 0.98) translate(0, 0.5px); }
+      }
+
+      @keyframes eye-blink {
+        0%, 10%, 100% { transform: scaleY(1); }
+        5% { transform: scaleY(0.1); }
+      }
+
+      /* Fast 3 waves (~0.9s) then still (~2.1s), loop */
+      @keyframes peek-wave {
+        0% { transform: rotate(0deg); }
+        5% { transform: rotate(35deg); }
+        10% { transform: rotate(-15deg); }
+        15% { transform: rotate(35deg); }
+        20% { transform: rotate(-15deg); }
+        25% { transform: rotate(35deg); }
+        30%, 100% { transform: rotate(0deg); }
+      }
+    </style>
+  </defs>
+
+  <!-- Entire character leaning -->
+  <g transform="rotate(-12, 7.5, 15)">
+
+    <!-- Legs -->
+    <g fill="#DE886D">
+      <rect x="3" y="11" width="1" height="4"/>
+      <rect x="5" y="11" width="1" height="4"/>
+      <rect x="9" y="11" width="1" height="4"/>
+      <rect x="11" y="11" width="1" height="4"/>
+    </g>
+
+    <!-- Upper Body -->
+    <g id="body-js">
+      <g class="breathe-anim">
+        <!-- Torso -->
+        <rect x="2" y="6" width="11" height="7" fill="#DE886D"/>
+
+        <!-- Left Arm — continuous big wave -->
+        <g class="arm-wave">
+          <rect x="-1.5" y="9" width="5.5" height="2" fill="#DE886D"/>
+        </g>
+
+        <!-- Right Arm -->
+        <rect x="13" y="9" width="2" height="2" fill="#DE886D"/>
+
+        <!-- Eyes: JS translate wrapper + CSS blink -->
+        <g id="eyes-js" fill="#000000">
+          <g class="eyes-blink">
+            <rect x="4" y="8" width="1" height="2"/>
+            <rect x="10" y="8" width="1" height="2"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
+<svg class="state-svg" id="svg-notification" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45" >
+  <!-- PoC v8: v7 左右翻转版
+       唯一改动: master-group 加 transform="translate(15, 0) scale(-1, 1)"
+                围绕 viewBox 中心 X=7.5 镜像翻转
+       视觉效果: 举手从右上变左上, body 倾斜方向反转, 左右腿角色互换
+       本仓库版额外压缩前段 timing: 更快举手, 保留中后段亮灯 hold
+       ground-shadow 在 master-group 外保持不动 (本身左右对称)
+  -->
+
+  <!-- v7 原注释保留作为技术参考: v6 + 眼睛序列 + 灯泡跟手摆动 + rays 居中修正
+       v6 → v7 三件改动:
+         1. 眼睛运动序列:
+            - 11-16% rect 眼移到右上看灯泡 (+1px, -0.5px)
+            - 16-24% 保持看灯泡
+            - 28% 回正中
+            - 30% 眨眼 (scaleY 0.1)
+            - 31-72% 切换为 ^^ 微笑眼 (复刻 mini-happy 的 polyline)
+            - 73-74% 微笑收起, rect 重新睁开
+            实现: rect 眼 + smile 眼 两套元素叠加, opacity step-end 切换 + scaleY 眨眼
+         2. 灯泡跟手微摆: lightbulb-zone 在 hold 期 (30-66%) 加微抖 (跟身体晃同步)
+            translate ±0.3px / ±0.2px, 比身体晃小一档, 表达"被举着也跟着重心晃"
+         3. rays 重排居中:
+            - 上下 y 范围从 [-5.8~7.2] 改为 [-5~5] 严格对称
+            - 几何中心从 (13.5, 1.0) 上移到 (13.5, 0.5), 更接近灯泡玻璃罩中心 (13.04, 0.16)
+            - transform-origin 同步改为 13.5px 0.5px
+
+       6s loop 时间轴:
+         0-3%    idle
+         3-10%   右手举到 -3px
+         10-16%  右手 hold + 灯泡 pop, 11% 眼睛开始看灯泡
+         16-24%  ★ 用力: body 右倾下压, 左腿被挤抬, 右手多举 1.5px
+         24-30%  眼睛回正中 + 灯丝亮起
+         24-66%  hold 用力姿态 + rays 闪 + body/腿/灯泡微抖
+         30%     眨眼瞬间
+         31-72%  ^^ 微笑眼显示
+         66-76%  右手回到 -3px, body 回正
+         70%     灯泡消失
+         73-74%  微笑收起, rect 眼重新睁开
+         76-84%  右手放下
+         84-100% 复位 idle
+  -->
+
+  <defs>
+    <style>
+      .body-breathe {
+        transform-box: view-box;
+        transform-origin: 7.5px 12px;
+        animation: body-breathe 6s infinite ease-in-out;
+      }
+      @keyframes body-breathe {
+        0%, 12%, 84%, 100% { transform: translateY(0); }
+        38%, 64%           { transform: translateY(-0.28px); }
+        72%                { transform: translateY(-0.12px); }
+      }
+
+      #ground-shadow {
+        transform-box: view-box;
+        transform-origin: 7.5px 15.5px;
+        animation: shadow-breathe 6s infinite ease-in-out;
+      }
+      @keyframes shadow-breathe {
+        0%, 12%, 84%, 100% { opacity: 0.5; transform: scaleX(1); }
+        38%, 64%           { opacity: 0.36; transform: scaleX(0.86); }
+        72%                { opacity: 0.44; transform: scaleX(0.94); }
+      }
+
+      /* === body 右倾下压 + hold 期 4 次微晃 (重心不稳) === */
+      .body-tilt {
+        transform-box: view-box;
+        transform-origin: 7.5px 13px;
+        animation: body-tilt 6s infinite ease-in-out;
+      }
+      @keyframes body-tilt {
+        0%, 16%, 76%, 100% { transform: rotate(0deg) scaleY(1); }
+        24%                { transform: rotate(3deg) scaleY(0.97); }
+        39%                { transform: rotate(4.5deg) scaleY(0.97); }
+        48%                { transform: rotate(2deg) scaleY(0.97); }
+        57%                { transform: rotate(4deg) scaleY(0.97); }
+        66%                { transform: rotate(3deg) scaleY(0.97); }
+      }
+
+      /* === 左两腿被挤抬起 + hold 期 6 次微抖 (用力颤抖) === */
+      .leg-left-inner {
+        transform-box: fill-box;
+        transform-origin: 50% 0%;
+        animation: leg-left-inner 6s infinite ease-in-out;
+      }
+      @keyframes leg-left-inner {
+        0%, 16%, 76%, 100% { transform: rotate(0deg); }
+        24%                { transform: rotate(12deg); }
+        36%                { transform: rotate(15deg); }
+        42%                { transform: rotate(9deg); }
+        48%                { transform: rotate(15deg); }
+        54%                { transform: rotate(9deg); }
+        60%                { transform: rotate(15deg); }
+        66%                { transform: rotate(12deg); }
+      }
+      .leg-left-outer {
+        transform-box: fill-box;
+        transform-origin: 50% 0%;
+        animation: leg-left-outer 6s infinite ease-in-out;
+      }
+      @keyframes leg-left-outer {
+        0%, 16%, 76%, 100% { transform: rotate(0deg); }
+        24%                { transform: rotate(22deg); }
+        36%                { transform: rotate(26deg); }
+        42%                { transform: rotate(19deg); }
+        48%                { transform: rotate(26deg); }
+        54%                { transform: rotate(19deg); }
+        60%                { transform: rotate(26deg); }
+        66%                { transform: rotate(22deg); }
+      }
+
+      /* === 左手: hold 期下沉 + 微晃 (配重稳平衡) === */
+      .arm-l-balance {
+        transform-box: fill-box;
+        transform-origin: 100% 0%;
+        animation: arm-l-balance 6s infinite ease-in-out;
+      }
+      @keyframes arm-l-balance {
+        0%, 16%, 76%, 100% { transform: translate(0, 0) rotate(0deg); }
+        24%                { transform: translate(0, 0.5px) rotate(-2deg); }
+        37%                { transform: translate(0, 0.55px) rotate(1deg); }
+        44%                { transform: translate(0, 0.5px) rotate(-3deg); }
+        51%                { transform: translate(0, 0.55px) rotate(2deg); }
+        58%                { transform: translate(0, 0.5px) rotate(-1deg); }
+        66%                { transform: translate(0, 0.5px) rotate(0deg); }
+      }
+
+      /* === 右手: idle → 举到 -3 → 用力多举到 -4.5 → 回落 → 放下 === */
+      .arm-r {
+        transform-origin: 13px 10px;
+        animation: arm-r 6s infinite ease-in-out;
+      }
+      @keyframes arm-r {
+        0%, 3%    { transform: none; }
+        10%, 16%  { transform: translateY(-3px) rotate(-90deg); }
+        24%, 66%  { transform: translateY(-4.5px) rotate(-90deg); }
+        76%       { transform: translateY(-3px) rotate(-90deg); }
+        80%, 100% { transform: none; }
+      }
+
+      /* === 灯泡 + rays 整组跟着右手举更高 + hold 期跟身体微摆 === */
+      .lightbulb-zone {
+        transform-box: view-box;
+        transform-origin: 0 0;
+        animation: lightbulb-zone 6s infinite ease-in-out;
+      }
+      @keyframes lightbulb-zone {
+        0%, 16%, 76%, 100% { transform: translate(0, 0); }
+        24%                { transform: translate(0, -1.5px); }
+        39%                { transform: translate(0.3px, -1.7px); }
+        48%                { transform: translate(-0.2px, -1.3px); }
+        57%                { transform: translate(0.3px, -1.6px); }
+        66%                { transform: translate(0, -1.5px); }
+      }
+
+      /* === 眼睛: rect 眼 (idle/看灯泡/眨眼) === */
+      .eyes-rect {
+        transform-box: view-box;
+        transform-origin: 7.5px 9px;
+        animation:
+          eyes-rect-move 6s infinite ease-in-out,
+          eyes-rect-vis 6s infinite step-end;
+      }
+      @keyframes eyes-rect-move {
+        0%, 11%       { transform: translate(0, 0) scaleY(1); }
+        16%, 24%      { transform: translate(1px, -0.5px) scaleY(1); }   /* 看灯泡 */
+        28%           { transform: translate(0, 0) scaleY(1); }          /* 回正中 */
+        30%           { transform: translate(0, 0) scaleY(0.1); }        /* 眨眼 */
+        72%           { transform: translate(0, 0) scaleY(0.1); }        /* 闭眼期 */
+        74%, 100%     { transform: translate(0, 0) scaleY(1); }          /* 睁开 */
+      }
+      @keyframes eyes-rect-vis {
+        0%, 30%       { opacity: 1; }
+        31%, 72%      { opacity: 0; }
+        73%, 100%     { opacity: 1; }
+      }
+
+      /* === 眼睛: ^^ 微笑眼 (灯泡 hold 期出现, 复刻 mini-happy) === */
+      .eyes-smile {
+        opacity: 0;
+        animation: eyes-smile-vis 6s infinite step-end;
+      }
+      @keyframes eyes-smile-vis {
+        0%, 30%       { opacity: 0; }
+        31%, 72%      { opacity: 1; }
+        73%, 100%     { opacity: 0; }
+      }
+
+      /* === 灯泡: 头顶固定点 pop 出现 → 8 次亮灯 → 消失 === */
+      .bulb {
+        transform-box: view-box;
+        transform-origin: 0 0;
+        opacity: 0;
+        animation: bulb-fly 6s infinite ease-in-out;
+      }
+      @keyframes bulb-fly {
+        0%, 11%   { opacity: 0; transform: translate(9.5px, -2.7px) scale(0.15); }
+        13%       { opacity: 1; transform: translate(9.5px, -2.7px) scale(0.27); }
+        16%, 66%  { opacity: 1; transform: translate(9.5px, -2.7px) scale(0.24); }
+        70%, 100% { opacity: 0; transform: translate(9.5px, -2.7px) scale(0.2); }
+      }
+
+      /* === 暗/亮玻璃: 只做一次灰色到亮起, 之后保持亮 === */
+      .bulb rect[fill="#FFB000"] { animation: glass-edge 6s infinite step-end; }
+      .bulb rect[fill="#FFD400"] { animation: glass-main 6s infinite step-end; }
+      .bulb rect[fill="#E88900"] { animation: glass-shadow 6s infinite step-end; }
+      .bulb rect[fill="#FFFFFF"],
+      .bulb rect[fill="#FFF8B8"] { animation: glass-highlight 6s infinite step-end; }
+
+      @keyframes glass-main {
+        0%, 19%   { fill: #8A7428; }
+        20%, 70%  { fill: #FFD400; }
+        71%, 100% { fill: #8A7428; }
+      }
+      @keyframes glass-edge {
+        0%, 19%   { fill: #725B20; }
+        20%, 70%  { fill: #FFB000; }
+        71%, 100% { fill: #725B20; }
+      }
+      @keyframes glass-shadow {
+        0%, 19%   { fill: #56451D; }
+        20%, 70%  { fill: #E88900; }
+        71%, 100% { fill: #56451D; }
+      }
+      @keyframes glass-highlight {
+        0%, 19%   { opacity: 0.25; }
+        20%, 70%  { opacity: 1; }
+        71%, 100% { opacity: 0.25; }
+      }
+
+      .f-anim { animation: filament-f 6s infinite step-end; }
+      @keyframes filament-f {
+        0%, 19%   { fill: #555; }
+        20%, 70%  { fill: #C96E00; }
+        71%, 100% { fill: #555; }
+      }
+
+      .fg-anim { animation: filament-fg 6s infinite step-end; }
+      @keyframes filament-fg {
+        0%, 19%   { fill: #777; }
+        20%, 70%  { fill: #E89500; }
+        71%, 100% { fill: #777; }
+      }
+
+      .rays {
+        transform-box: view-box;
+        transform-origin: 13.5px 0.5px;
+        opacity: 0;
+        animation: rays-burst 6s infinite ease-in-out;
+      }
+      @keyframes rays-burst {
+        0%, 24%   { opacity: 0; transform: translate(-0.1px, -0.1px) scale(0.65); }
+        25%, 26%  { opacity: 0.9; transform: translate(-0.1px, -0.1px) scale(0.9); }
+        27%, 28%  { opacity: 0; transform: translate(-0.1px, -0.1px) scale(0.65); }
+        30%, 31%  { opacity: 0.9; transform: translate(-0.1px, -0.1px) scale(0.95); }
+        32%, 33%  { opacity: 0; transform: translate(-0.1px, -0.1px) scale(0.65); }
+        35%, 36%  { opacity: 0.9; transform: translate(-0.1px, -0.1px) scale(0.9); }
+        37%, 38%  { opacity: 0; transform: translate(-0.1px, -0.1px) scale(0.65); }
+        40%, 41%  { opacity: 0.9; transform: translate(-0.1px, -0.1px) scale(0.95); }
+        42%, 43%  { opacity: 0; transform: translate(-0.1px, -0.1px) scale(0.65); }
+        45%, 46%  { opacity: 0.9; transform: translate(-0.1px, -0.1px) scale(0.9); }
+        47%, 48%  { opacity: 0; transform: translate(-0.1px, -0.1px) scale(0.65); }
+        50%, 51%  { opacity: 0.9; transform: translate(-0.1px, -0.1px) scale(0.95); }
+        52%, 53%  { opacity: 0; transform: translate(-0.1px, -0.1px) scale(0.65); }
+        55%, 56%  { opacity: 0.9; transform: translate(-0.1px, -0.1px) scale(0.9); }
+        57%, 60%  { opacity: 1; transform: translate(-0.1px, -0.1px) scale(0.95); }
+        61%, 100% { opacity: 0; transform: translate(-0.1px, -0.1px) scale(0.65); }
+      }
+    </style>
+  </defs>
+
+  <rect id="ground-shadow" x="3" y="15" width="9" height="1" fill="#000000" opacity="0.5"/>
+
+  <g id="master-group" transform="translate(15, 0) scale(-1, 1)">
+    <!-- 主体 + 左侧腿 (要 body-tilt) + 左手 -->
+    <g class="body-breathe">
+      <g class="body-tilt">
+        <!-- 左外/左内腿: 被身体右倾挤压抬起 -->
+        <rect class="leg-left-outer" x="3" y="13" width="1" height="2" fill="#DE886D"/>
+        <rect class="leg-left-inner" x="5" y="13" width="1" height="2" fill="#DE886D"/>
+
+        <!-- torso -->
+        <rect x="2" y="6" width="11" height="7" fill="#DE886D"/>
+
+        <!-- 眼睛 rect (正眼/看灯泡/眨眼) -->
+        <g class="eyes-rect" fill="#000000">
+          <rect x="4"  y="8" width="1" height="2"/>
+          <rect x="10" y="8" width="1" height="2"/>
+        </g>
+
+        <!-- 眼睛 ^^ 微笑 (灯泡 hold 期出现, 复刻 mini-happy 的 polyline 描边) -->
+        <g class="eyes-smile" fill="none" stroke="#000000" stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="3.5,9 4.5,8 5.5,9"/>
+          <polyline points="9.5,9 10.5,8 11.5,9"/>
+        </g>
+
+        <!-- 左手 (在 body-tilt 内, 跟身体倾斜 + 自身 hold 期下沉微晃) -->
+        <rect class="arm-l-balance" x="0" y="9" width="2" height="2" fill="#DE886D"/>
+      </g>
+
+      <!-- 右内腿 (在 body-tilt 外, 独立支撑) -->
+      <rect x="9" y="13" width="1" height="2" fill="#DE886D"/>
+    </g>
+
+    <!-- 右外腿 (完全独立支撑, 不受任何 transform 影响) -->
+    <rect x="11" y="13" width="1" height="2" fill="#DE886D"/>
+
+    <!-- 灯泡 + rays 包一组, 跟右手举更高 -->
+    <g class="lightbulb-zone">
+      <g class="bulb">
+        <!-- 玻璃罩 描边橙 #FFB000 -->
+        <rect fill="#FFB000" x="12" y="2"  width="8"  height="1"/>
+        <rect fill="#FFB000" x="10" y="3"  width="12" height="1"/>
+        <rect fill="#FFB000" x="9"  y="4"  width="14" height="1"/>
+        <rect fill="#FFB000" x="8"  y="5"  width="16" height="1"/>
+        <rect fill="#FFB000" x="7"  y="6"  width="18" height="1"/>
+        <rect fill="#FFB000" x="6"  y="7"  width="20" height="1"/>
+        <rect fill="#FFB000" x="5"  y="8"  width="22" height="2"/>
+        <rect fill="#FFB000" x="4"  y="10" width="24" height="7"/>
+        <rect fill="#FFB000" x="5"  y="17" width="22" height="2"/>
+        <rect fill="#FFB000" x="6"  y="19" width="20" height="1"/>
+        <rect fill="#FFB000" x="7"  y="20" width="18" height="1"/>
+        <rect fill="#FFB000" x="8"  y="21" width="16" height="1"/>
+        <rect fill="#FFB000" x="9"  y="22" width="14" height="1"/>
+        <rect fill="#FFB000" x="10" y="23" width="12" height="1"/>
+        <rect fill="#FFB000" x="12" y="24" width="8"  height="2"/>
+
+        <!-- 玻璃罩 主体黄 #FFD400 -->
+        <rect fill="#FFD400" x="13" y="3"  width="6"  height="1"/>
+        <rect fill="#FFD400" x="11" y="4"  width="10" height="1"/>
+        <rect fill="#FFD400" x="10" y="5"  width="12" height="1"/>
+        <rect fill="#FFD400" x="9"  y="6"  width="14" height="1"/>
+        <rect fill="#FFD400" x="8"  y="7"  width="16" height="1"/>
+        <rect fill="#FFD400" x="7"  y="8"  width="18" height="2"/>
+        <rect fill="#FFD400" x="6"  y="10" width="20" height="7"/>
+        <rect fill="#FFD400" x="7"  y="17" width="18" height="2"/>
+        <rect fill="#FFD400" x="8"  y="19" width="16" height="1"/>
+        <rect fill="#FFD400" x="9"  y="20" width="14" height="1"/>
+        <rect fill="#FFD400" x="10" y="21" width="12" height="1"/>
+        <rect fill="#FFD400" x="11" y="22" width="10" height="1"/>
+        <rect fill="#FFD400" x="12" y="23" width="8"  height="1"/>
+        <rect fill="#FFD400" x="13" y="24" width="6"  height="2"/>
+
+        <!-- 玻璃罩 边缘暗橙 #E88900 -->
+        <rect fill="#E88900" x="21" y="4"  width="2" height="1"/>
+        <rect fill="#E88900" x="22" y="5"  width="1" height="2"/>
+        <rect fill="#E88900" x="24" y="8"  width="1" height="4"/>
+        <rect fill="#E88900" x="25" y="10" width="1" height="4"/>
+        <rect fill="#E88900" x="23" y="17" width="2" height="1"/>
+        <rect fill="#E88900" x="22" y="19" width="2" height="1"/>
+        <rect fill="#E88900" x="20" y="22" width="2" height="1"/>
+        <rect fill="#E88900" x="18" y="24" width="2" height="2"/>
+        <rect fill="#E88900" x="7"  y="8"  width="1" height="2"/>
+        <rect fill="#E88900" x="6"  y="17" width="1" height="1"/>
+        <rect fill="#E88900" x="8"  y="20" width="1" height="1"/>
+        <rect fill="#E88900" x="10" y="23" width="1" height="1"/>
+
+        <!-- 高光 -->
+        <rect fill="#FFFFFF" x="13" y="4"  width="2" height="1"/>
+        <rect fill="#FFF8B8" x="12" y="5"  width="1" height="2"/>
+        <rect fill="#FFFFFF" x="11" y="7"  width="2" height="1"/>
+        <rect fill="#FFF8B8" x="10" y="8"  width="1" height="1"/>
+        <rect fill="#FFF8B8" x="9"  y="10" width="1" height="2"/>
+
+        <!-- 灯丝 -->
+        <rect class="f-anim"  x="13" y="12" width="2" height="1"/>
+        <rect class="f-anim"  x="18" y="12" width="2" height="1"/>
+        <rect class="f-anim"  x="13" y="13" width="1" height="3"/>
+        <rect class="f-anim"  x="19" y="13" width="1" height="3"/>
+        <rect class="fg-anim" x="14" y="14" width="1" height="2"/>
+        <rect class="fg-anim" x="18" y="14" width="1" height="2"/>
+        <rect class="f-anim"  x="15" y="15" width="3" height="1"/>
+        <rect class="fg-anim" x="15" y="16" width="1" height="2"/>
+        <rect class="fg-anim" x="17" y="16" width="1" height="2"/>
+        <rect class="f-anim"  x="16" y="18" width="1" height="7"/>
+
+        <!-- 灯口 -->
+        <rect fill="#2E2E2E" x="11" y="25" width="10" height="1"/>
+        <rect fill="#2E2E2E" x="12" y="26" width="1"  height="1"/>
+        <rect fill="#9B9B9B" x="13" y="26" width="2"  height="1"/>
+        <rect fill="#D7D7D7" x="15" y="26" width="4"  height="1"/>
+        <rect fill="#2E2E2E" x="19" y="26" width="1"  height="1"/>
+        <rect fill="#2E2E2E" x="11" y="27" width="1"  height="1"/>
+        <rect fill="#9B9B9B" x="12" y="27" width="3"  height="1"/>
+        <rect fill="#D7D7D7" x="15" y="27" width="4"  height="1"/>
+        <rect fill="#666666" x="19" y="27" width="1"  height="1"/>
+        <rect fill="#2E2E2E" x="20" y="27" width="1"  height="1"/>
+        <rect fill="#2E2E2E" x="12" y="28" width="1"  height="1"/>
+        <rect fill="#9B9B9B" x="13" y="28" width="2"  height="1"/>
+        <rect fill="#D7D7D7" x="15" y="28" width="4"  height="1"/>
+        <rect fill="#2E2E2E" x="19" y="28" width="1"  height="1"/>
+        <rect fill="#2E2E2E" x="11" y="29" width="1"  height="1"/>
+        <rect fill="#9B9B9B" x="12" y="29" width="3"  height="1"/>
+        <rect fill="#D7D7D7" x="15" y="29" width="4"  height="1"/>
+        <rect fill="#666666" x="19" y="29" width="1"  height="1"/>
+        <rect fill="#2E2E2E" x="20" y="29" width="1"  height="1"/>
+        <rect fill="#2E2E2E" x="12" y="30" width="1"  height="1"/>
+        <rect fill="#9B9B9B" x="13" y="30" width="2"  height="1"/>
+        <rect fill="#D7D7D7" x="15" y="30" width="4"  height="1"/>
+        <rect fill="#2E2E2E" x="19" y="30" width="1"  height="1"/>
+        <rect fill="#2E2E2E" x="13" y="31" width="6"  height="1"/>
+        <rect fill="#2E2E2E" x="14" y="32" width="4"  height="1"/>
+      </g>
+
+      <!-- 放射线 12 条 (v7 重排, 上下严格对称, 中心 (13.5, 0.5) 接近灯泡玻璃罩中心) -->
+      <g class="rays" fill="#FFFFFF">
+        <!-- 主方向 上 (2 像素长条) -->
+        <rect x="13" y="-5" width="1" height="1"/>
+        <rect x="13" y="-4" width="1" height="1"/>
+        <!-- 主方向 下 (2 像素长条) -->
+        <rect x="13" y="4"  width="1" height="1"/>
+        <rect x="13" y="5"  width="1" height="1"/>
+        <!-- 主方向 左 (2 像素长条) -->
+        <rect x="6"  y="0"  width="1" height="1"/>
+        <rect x="7"  y="0"  width="1" height="1"/>
+        <!-- 主方向 右 (2 像素长条) -->
+        <rect x="19" y="0"  width="1" height="1"/>
+        <rect x="20" y="0"  width="1" height="1"/>
+        <!-- 对角 4 个单像素点 -->
+        <rect x="9"  y="-3" width="1" height="1"/>
+        <rect x="17" y="-3" width="1" height="1"/>
+        <rect x="9"  y="3"  width="1" height="1"/>
+        <rect x="17" y="3"  width="1" height="1"/>
+      </g>
+    </g>
+
+    <!-- 右手: body-breathe → body-tilt → arm-r 三层嵌套 (跟身体微呼吸 + 身体右倾 + 自己举起多举) -->
+    <g class="body-breathe">
+      <g class="body-tilt">
+        <g class="arm-r" fill="#DE886D">
+          <rect x="13" y="9" width="2" height="2"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
+<svg class="state-svg" id="svg-react_annoyed" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45" >
+  <defs>
+    <style>
+      /* ===== 6s one-shot: annoyed, pause, resigned sigh, slow return =====
+         Phase 1 (0-6%,    ~0.36s): Flinch
+         Phase 2 (6-18%,   ~0.72s): Lean away + hand block + question mark
+         Phase 3 (18-35%,  ~1.02s): Hold — stay annoyed, question mark fades
+         Phase 4 (35-55%,  ~1.20s): Sigh — hand drops, body slumps, puff cloud
+         Phase 5 (55-70%,  ~0.90s): Linger slumped — still tired
+         Phase 6 (70-90%,  ~1.20s): Slow return
+         Phase 7 (90-100%, ~0.60s): Still
+      */
+
+      .body-react {
+        transform-origin: 7.5px 12px;
+        animation: body-react 6s 1 ease-in-out forwards;
+      }
+      .arm-l-react {
+        transform-origin: 2px 10px;
+        animation: arm-l-react 6s 1 ease-in-out forwards;
+      }
+      .eyes-react {
+        transform-origin: 7.5px 9px;
+        animation: eyes-react 6s 1 ease-in-out forwards;
+      }
+      .shadow-react {
+        transform-origin: 7.5px 15.5px;
+        animation: shadow-react 6s 1 ease-in-out forwards;
+      }
+      .qmark {
+        opacity: 0;
+        transform-origin: 8px -2px;
+        animation: qmark-pop 6s 1 ease-out forwards;
+      }
+      .sigh-cloud {
+        opacity: 0;
+        transform-origin: 16px 9px;
+        animation: sigh-puff 6s 1 ease-out forwards;
+      }
+
+      /* Body: flinch, lean, HOLD, sigh slump, LINGER, slow return */
+      @keyframes body-react {
+        0%        { transform: translate(0, 0) scale(1, 1); }
+        4%        { transform: translate(0, 1.5px) scale(1, 1); }
+        6%        { transform: translate(0, 1px) scale(1, 1); }
+        14%       { transform: translate(2px, 0) scale(1, 1); }
+        /* hold annoyed pose */
+        35%       { transform: translate(2px, 0) scale(1, 1); }
+        /* sigh: rise then slump */
+        40%       { transform: translate(1.5px, -0.5px) scale(1, 1.01); }
+        46%       { transform: translate(1px, 1px) scale(1.03, 0.97); }
+        52%       { transform: translate(0.5px, 0.5px) scale(1.01, 0.99); }
+        /* linger slumped */
+        68%       { transform: translate(0.3px, 0.3px) scale(1, 1); }
+        /* slow return */
+        85%       { transform: translate(0, 0) scale(1, 1); }
+        100%      { transform: translate(0, 0) scale(1, 1); }
+      }
+
+      /* Left arm: block, hold, resigned drop */
+      @keyframes arm-l-react {
+        0%        { transform: rotate(0deg); }
+        6%        { transform: rotate(0deg); }
+        14%       { transform: rotate(-50deg); }
+        /* hold block through pause */
+        35%       { transform: rotate(-45deg); }
+        /* resigned drop */
+        43%       { transform: rotate(-15deg); }
+        48%       { transform: rotate(0deg); }
+        100%      { transform: rotate(0deg); }
+      }
+
+      /* Eyes: squint, half-lid, HOLD, sigh-close, tired linger, recover */
+      @keyframes eyes-react {
+        0%        { transform: scaleY(1); }
+        3%        { transform: scaleY(0.2); }
+        6%        { transform: scaleY(0.6); }
+        14%       { transform: scaleY(0.5); }
+        /* hold half-lid through pause */
+        35%       { transform: scaleY(0.5); }
+        /* sigh: close then reopen tired */
+        40%       { transform: scaleY(0.1); }
+        46%       { transform: scaleY(0.6); }
+        /* linger tired */
+        68%       { transform: scaleY(0.6); }
+        /* blink, back to normal */
+        74%       { transform: scaleY(0.1); }
+        78%       { transform: scaleY(1); }
+        100%      { transform: scaleY(1); }
+      }
+
+      /* Question mark: pop during lean, fade during hold */
+      @keyframes qmark-pop {
+        0%, 4%    { opacity: 0; transform: translate(0, 4px) scale(0.5); }
+        10%       { opacity: 1; transform: translate(0, 0) scale(1.1); }
+        14%, 26%  { opacity: 1; transform: translate(0, 0) scale(1); }
+        34%       { opacity: 0; transform: translate(0, -3px) scale(1.1); }
+        100%      { opacity: 0; }
+      }
+
+      /* Sigh puff: breath cloud after hold */
+      @keyframes sigh-puff {
+        0%, 37%   { opacity: 0; transform: translate(0, 1px) scale(0.3); }
+        43%       { opacity: 0.6; transform: translate(0, 0) scale(0.8); }
+        48%       { opacity: 0.7; transform: translate(1px, 0) scale(1); }
+        60%       { opacity: 0; transform: translate(4px, -4px) scale(1.3); }
+        100%      { opacity: 0; }
+      }
+
+      /* Shadow */
+      @keyframes shadow-react {
+        0%        { transform: translate(0, 0) scaleX(1); opacity: 0.5; }
+        4%        { transform: translate(0, 0) scaleX(0.93); opacity: 0.45; }
+        14%       { transform: translate(1px, 0) scaleX(1); opacity: 0.5; }
+        35%       { transform: translate(1px, 0) scaleX(1); opacity: 0.5; }
+        46%       { transform: translate(0.5px, 0) scaleX(1.05); opacity: 0.55; }
+        68%       { transform: translate(0.3px, 0) scaleX(1.02); opacity: 0.52; }
+        85%       { transform: translate(0, 0) scaleX(1); opacity: 0.5; }
+        100%      { transform: translate(0, 0) scaleX(1); opacity: 0.5; }
+      }
+    </style>
+  </defs>
+
+  <!-- Ground Shadow -->
+  <rect class="shadow-react" x="3" y="15" width="9" height="1" fill="#000" opacity="0.5"/>
+
+  <!-- Static Legs -->
+  <g fill="#DE886D">
+    <rect x="3" y="11" width="1" height="4"/>
+    <rect x="5" y="11" width="1" height="4"/>
+    <rect x="9" y="11" width="1" height="4"/>
+    <rect x="11" y="11" width="1" height="4"/>
+  </g>
+
+  <!-- Animated Upper Body -->
+  <g class="body-react">
+    <!-- Torso -->
+    <g fill="#DE886D">
+      <rect x="2" y="6" width="11" height="7"/>
+    </g>
+    <!-- Arms -->
+    <g fill="#DE886D">
+      <g class="arm-l-react"><rect x="0" y="9" width="2" height="2"/></g>
+      <rect x="13" y="9" width="2" height="2"/>
+    </g>
+    <!-- Eyes -->
+    <g class="eyes-react" fill="#000">
+      <rect x="4" y="8" width="1" height="2"/>
+      <rect x="10" y="8" width="1" height="2"/>
+    </g>
+    <!-- Question mark -->
+    <g class="qmark" fill="#5C9CE6">
+      <rect x="7" y="-5" width="2" height="1"/>
+      <rect x="6" y="-4" width="1" height="1"/>
+      <rect x="9" y="-4" width="1" height="2"/>
+      <rect x="8" y="-2" width="1" height="1"/>
+      <rect x="7" y="-1" width="1" height="1"/>
+      <rect x="7" y="1" width="1" height="1"/>
+    </g>
+    <!-- Sigh puff cloud (right side of face) -->
+    <g class="sigh-cloud" fill="#FFF">
+      <rect x="14" y="9" width="2" height="1"/>
+      <rect x="15" y="8" width="2" height="1"/>
+      <rect x="16" y="7" width="2" height="1"/>
+    </g>
+  </g>
+</svg>
+<svg class="state-svg" id="svg-react_double_jump" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45" >
+  <defs>
+    <style>
+      /* ===== 3.5s one-shot: startled jump, pat chest, settle =====
+         Phase 1 (0-15%):   Jump — body flies high, legs fly less, arms out, exclamation pops
+         Phase 2 (15-40%):  Land — squash cushion, micro bounce, exclamation fades
+         Phase 3 (40-70%):  Pat chest — right arm strokes chest, calming
+         Phase 4 (70-100%): Settle — arm down, blink, still
+      */
+
+      /* Body vertical jump (flies high) */
+      .body-jump {
+        animation: body-jump 3.5s 1 ease-in-out forwards;
+      }
+
+      /* Legs vertical jump (flies less = gap with body) */
+      .legs-jump {
+        animation: legs-jump 3.5s 1 ease-in-out forwards;
+      }
+
+      /* Upper body squash/stretch */
+      .body-react {
+        transform-origin: 7.5px 13px;
+        animation: body-squash 3.5s 1 ease-in-out forwards;
+      }
+
+      .arm-l-react {
+        transform-origin: 2px 10px;
+        animation: arm-l-react 3.5s 1 ease-in-out forwards;
+      }
+      .arm-r-react {
+        transform-origin: 13px 10px;
+        animation: arm-r-react 3.5s 1 ease-in-out forwards;
+      }
+      /* Eyes: gaze wrapper, rect eyes (blink+vis), xmark eyes (vis) */
+      .eyes-gaze {
+        animation: eyes-gaze 3.5s 1 ease-in-out forwards;
+      }
+      .eyes-rect {
+        transform-origin: 7.5px 9px;
+        animation: eyes-blink 3.5s 1 ease-in-out forwards, rect-vis 3.5s 1 step-end forwards;
+      }
+      .eyes-xmark {
+        visibility: hidden;
+        animation: xmark-vis 3.5s 1 step-end forwards;
+      }
+      .shadow-react {
+        transform-origin: 7.5px 15.5px;
+        animation: shadow-react 3.5s 1 ease-in-out forwards;
+      }
+      .excl-pop {
+        animation: excl-pop 3.5s 1 ease-in-out forwards;
+        opacity: 0;
+      }
+
+      /* ==================== Keyframes ==================== */
+
+      /* Body jumps HIGH */
+      @keyframes body-jump {
+        0%        { transform: translateY(0); }
+        10%       { transform: translateY(-5px); }
+        15%       { transform: translateY(-4.5px); }
+        /* fast drop */
+        23%       { transform: translateY(1px); }
+        29%       { transform: translateY(-0.5px); }
+        35%       { transform: translateY(0); }
+        100%      { transform: translateY(0); }
+      }
+
+      /* Legs jump LESS = visible gap from body */
+      @keyframes legs-jump {
+        0%        { transform: translateY(0); }
+        10%       { transform: translateY(-2px); }
+        15%       { transform: translateY(-1.5px); }
+        23%       { transform: translateY(0.5px); }
+        29%       { transform: translateY(-0.3px); }
+        35%       { transform: translateY(0); }
+        100%      { transform: translateY(0); }
+      }
+
+      /* Body squash on landing + sigh during chest pat */
+      @keyframes body-squash {
+        0%        { transform: scale(1, 1); }
+        10%       { transform: scale(0.88, 0.88); }
+        15%       { transform: scale(0.9, 0.9); }
+        23%       { transform: scale(1.1, 0.9); }
+        29%       { transform: scale(0.97, 1.03); }
+        35%       { transform: scale(1, 1); }
+        /* sigh: exhale compression while hand rests on chest */
+        45%       { transform: scale(1.03, 0.97); }
+        55%       { transform: scale(1, 1); }
+        100%      { transform: scale(1, 1); }
+      }
+
+      /* Left arm: fly out, return, rest */
+      @keyframes arm-l-react {
+        0%        { transform: translate(0, 0) rotate(0deg); }
+        10%       { transform: translate(-2px, -2px) rotate(70deg); }
+        15%       { transform: translate(-1.5px, -1.5px) rotate(55deg); }
+        30%       { transform: translate(0, 0) rotate(0deg); }
+        100%      { transform: translate(0, 0) rotate(0deg); }
+      }
+
+      /* Right arm: fly out, return, rest on chest (relief), slow pat, lower */
+      @keyframes arm-r-react {
+        0%        { transform: translate(0, 0) rotate(0deg); }
+        /* Phase 1: fly out */
+        10%       { transform: translate(2px, -2px) rotate(-70deg); }
+        15%       { transform: translate(1.5px, -1.5px) rotate(-55deg); }
+        /* Phase 2: return */
+        32%       { transform: translate(0, 0) rotate(0deg); }
+        /* Phase 3: hand to chest — HOLD first (the relief moment) */
+        40%       { transform: rotate(-50deg); }
+        50%       { transform: rotate(-50deg); }
+        /* slow pat: one gentle press */
+        56%       { transform: rotate(-42deg); }
+        62%       { transform: rotate(-48deg); }
+        /* Phase 4: lower */
+        78%       { transform: rotate(-15deg); }
+        90%       { transform: rotate(0deg); }
+        100%      { transform: rotate(0deg); }
+      }
+
+      /* Gaze direction (shared by both eye types) */
+      @keyframes eyes-gaze {
+        0%, 35%   { transform: translate(0, 0); }
+        42%, 63%  { transform: translate(0, 0.5px); }
+        70%, 100% { transform: translate(0, 0); }
+      }
+
+      /* Rect eyes: widen, blink on land, blink-shut to gate xmark switch, blink-open on return */
+      @keyframes eyes-blink {
+        0%        { transform: scaleY(1); }
+        8%        { transform: scaleY(1.3); }
+        15%       { transform: scaleY(1.2); }
+        /* blink on impact */
+        23%       { transform: scaleY(0.1); }
+        30%       { transform: scaleY(1); }
+        /* blink shut — gates switch to xmark at 38% */
+        36%       { transform: scaleY(0.1); }
+        /* hidden from 38%, value irrelevant */
+        50%       { transform: scaleY(0.1); }
+        /* reappear at 82% still shut — gates switch from xmark */
+        82%       { transform: scaleY(0.1); }
+        88%       { transform: scaleY(1); }
+        100%      { transform: scaleY(1); }
+      }
+
+      /* Rect eyes visibility: hide during xmark phase */
+      @keyframes rect-vis {
+        0%  { visibility: visible; }
+        38% { visibility: hidden; }
+        82% { visibility: visible; }
+      }
+
+      /* xmark eyes visibility: show during chest pat phase */
+      @keyframes xmark-vis {
+        0%  { visibility: hidden; }
+        38% { visibility: visible; }
+        82% { visibility: hidden; }
+      }
+
+      /* Shadow: shrink on jump, expand on land */
+      @keyframes shadow-react {
+        0%        { transform: scaleX(1); opacity: 0.5; }
+        10%       { transform: scaleX(0.55); opacity: 0.2; }
+        15%       { transform: scaleX(0.6); opacity: 0.23; }
+        23%       { transform: scaleX(1.12); opacity: 0.55; }
+        29%       { transform: scaleX(0.95); opacity: 0.48; }
+        35%       { transform: scaleX(1); opacity: 0.5; }
+        100%      { transform: scaleX(1); opacity: 0.5; }
+      }
+
+      /* Exclamation: emerge from below (head level), pop up high, fade */
+      @keyframes excl-pop {
+        0%, 4%    { opacity: 0; transform: translate(0, 10px) scale(0.3); }
+        10%       { opacity: 1; transform: translate(0, 0) scale(1.3); }
+        15%, 30%  { opacity: 1; transform: translate(0, 0) scale(1); }
+        42%       { opacity: 0; transform: translate(0, -2px) scale(0.8); }
+        100%      { opacity: 0; }
+      }
+    </style>
+  </defs>
+
+  <!-- Ground Shadow (stays on ground) -->
+  <rect class="shadow-react" x="3" y="15" width="9" height="1" fill="#000" opacity="0.5"/>
+
+  <!-- Legs (jump less than body = visible separation) -->
+  <g class="legs-jump" fill="#DE886D">
+    <rect x="3" y="13" width="1" height="2"/>
+    <rect x="5" y="13" width="1" height="2"/>
+    <rect x="9" y="13" width="1" height="2"/>
+    <rect x="11" y="13" width="1" height="2"/>
+  </g>
+
+  <!-- Body (jumps higher) -->
+  <g class="body-jump">
+    <g class="body-react">
+      <!-- Torso -->
+      <g fill="#DE886D">
+        <rect x="2" y="6" width="11" height="7"/>
+      </g>
+      <!-- Arms -->
+      <g fill="#DE886D">
+        <g class="arm-l-react"><rect x="0" y="9" width="2" height="2"/></g>
+        <g class="arm-r-react"><rect x="13" y="9" width="2" height="2"/></g>
+      </g>
+      <!-- Eyes -->
+      <g class="eyes-gaze">
+        <!-- Normal rect eyes (phases 1,2,4) -->
+        <g class="eyes-rect" fill="#000">
+          <rect x="4" y="8" width="1" height="2"/>
+          <rect x="10" y="8" width="1" height="2"/>
+        </g>
+        <!-- Small square eyes (phase 3: chest pat — relieved squint) -->
+        <g class="eyes-xmark" fill="#000">
+          <rect x="4" y="9" width="1" height="1"/>
+          <rect x="10" y="9" width="1" height="1"/>
+        </g>
+      </g>
+    </g>
+
+    <!-- Exclamation mark (moves with body, base position high above head) -->
+    <g class="excl-pop" fill="#FF3D00">
+      <rect x="7" y="-5" width="1.5" height="3"/>
+      <rect x="7" y="-1" width="1.5" height="1.5"/>
+    </g>
+  </g>
+</svg>
+<svg class="state-svg" id="svg-working_carrying" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45" >
+  <defs>
+    <style>
+      .body-walk {
+        transform-origin: 7.5px 15px;
+        animation: walk-bounce 0.4s infinite ease-in-out;
+      }
+      .step-a { animation: step 0.4s infinite ease-in-out; }
+      .step-b { animation: step 0.4s infinite ease-in-out; animation-delay: -0.2s; }
+      .pack-swing {
+        transform-origin: 13px 8px;
+        animation: pack-swing 0.4s infinite alternate ease-in-out;
+      }
+      .arm-swing-l {
+        transform-origin: 2px 9px;
+        animation: arm-swing 0.4s infinite alternate ease-in-out;
+      }
+      .cap-sway {
+        transform-origin: 6px 6.5px;
+        animation: cap-sway 0.8s infinite alternate ease-in-out;
+      }
+      .shadow-walk {
+        transform-origin: 7.5px 15.5px;
+        animation: shadow-walk 0.4s infinite ease-in-out;
+      }
+
+      /* Eyes three-layer */
+      .eyes-gaze { animation: eyes-gaze 2.5s infinite; }
+      .eyes-rect {
+        transform-origin: 7.5px 9px;
+        animation: eyes-blink-rush 2.5s infinite, rect-vis 2.5s infinite step-end;
+      }
+      .eyes-xmark {
+        visibility: hidden;
+        animation: xmark-vis 2.5s infinite step-end;
+      }
+
+      /* Sweat: only during xmark period */
+      .sweat-1 { animation: sweat1-fly 2.5s infinite; }
+      .sweat-2 { animation: sweat2-fly 2.5s infinite; }
+
+      @keyframes walk-bounce {
+        0%, 50%, 100% { transform: translateY(1px); }
+        25%, 75%       { transform: translateY(0); }
+      }
+      @keyframes step {
+        0%, 100% { transform: translateY(0); }
+        50%      { transform: translateY(-1px); }
+      }
+      @keyframes pack-swing {
+        0%   { transform: rotate(3deg); }
+        100% { transform: rotate(-3deg); }
+      }
+      @keyframes arm-swing {
+        0%   { transform: rotate(-8deg); }
+        100% { transform: rotate(8deg); }
+      }
+      @keyframes cap-sway {
+        0%   { transform: rotate(-3deg); }
+        100% { transform: rotate(3deg); }
+      }
+      @keyframes shadow-walk {
+        0%, 50%, 100% { transform: scale(1.03); opacity: 0.55; }
+        25%, 75%       { transform: scale(1); opacity: 0.5; }
+      }
+
+      /* Gaze: left while rushing, center during xmark */
+      @keyframes eyes-gaze {
+        0%, 15%, 88%, 100% { transform: translate(-1px, 0); }
+        25%, 80%           { transform: translate(0, 0); }
+      }
+      /* Rect blink + gate at 28% and 78% */
+      @keyframes eyes-blink-rush {
+        0%, 4%, 100%  { transform: scaleY(1); }
+        6%            { transform: scaleY(0.1); }
+        8%            { transform: scaleY(1); }
+        28%           { transform: scaleY(0.1); }
+        31%, 76%      { transform: scaleY(1); }
+        78%           { transform: scaleY(0.1); }
+        83%           { transform: scaleY(1); }
+      }
+      /* Rect hidden during xmark */
+      @keyframes rect-vis {
+        0%  { visibility: visible; }
+        29% { visibility: hidden; }
+        79% { visibility: visible; }
+      }
+      /* Xmark shown during xmark */
+      @keyframes xmark-vis {
+        0%  { visibility: hidden; }
+        29% { visibility: visible; }
+        79% { visibility: hidden; }
+      }
+
+      /* Sweat only during xmark (synced to 2.5s) */
+      @keyframes sweat1-fly {
+        0%, 27%  { transform: translate(0, 0); opacity: 0; }
+        31%      { transform: translate(0, 0); opacity: 1; }
+        55%      { transform: translate(4px, -3px); opacity: 0; }
+        100%     { opacity: 0; }
+      }
+      @keyframes sweat2-fly {
+        0%, 37%  { transform: translate(0, 0); opacity: 0; }
+        41%      { transform: translate(0, 0); opacity: 1; }
+        65%      { transform: translate(2px, -5px); opacity: 0; }
+        100%     { opacity: 0; }
+      }
+    </style>
+  </defs>
+
+  <rect class="shadow-walk" x="3" y="15" width="9" height="1" fill="#000000" opacity="0.5"/>
+
+  <g transform="rotate(-2, 7.5, 15)">
+  <g class="body-walk">
+    <!-- Backpack -->
+    <g class="pack-swing">
+      <rect x="13" y="7" width="4" height="6" fill="#5C9CE6"/>
+      <rect x="12" y="8" width="5" height="4" fill="#5C9CE6"/>
+      <rect x="13" y="7" width="4" height="2" fill="#3D7AC7"/>
+      <rect x="13" y="10" width="4" height="1" fill="#3D7AC7"/>
+      <rect x="13" y="12" width="4" height="1" fill="#2D5FA5"/>
+      <rect x="15" y="9" width="1" height="1" fill="#FFD54F"/>
+    </g>
+
+    <!-- Legs -->
+    <g fill="#DE886D">
+      <rect class="step-a" x="3" y="13" width="1" height="2"/>
+      <rect class="step-b" x="5" y="13" width="1" height="2"/>
+      <rect class="step-b" x="9" y="13" width="1" height="2"/>
+      <rect class="step-a" x="11" y="13" width="1" height="2"/>
+    </g>
+
+    <!-- Body -->
+    <rect x="2" y="6" width="11" height="7" fill="#DE886D"/>
+
+    <!-- Arms -->
+    <g class="arm-swing-l" fill="#DE886D">
+      <rect x="0" y="9" width="3" height="2"/>
+    </g>
+    <rect x="13" y="9" width="2" height="2" fill="#DE886D"/>
+
+    <!-- Right strap -->
+    <rect x="13" y="7" width="1" height="4" fill="#3D7AC7"/>
+
+    <!-- Eyes: gaze + rect/xmark toggle -->
+    <g class="eyes-gaze">
+      <g class="eyes-rect" fill="#000000">
+        <rect x="4" y="8" width="1" height="2"/>
+        <rect x="10" y="8" width="1" height="2"/>
+      </g>
+      <g class="eyes-xmark" fill="none" stroke="#000000"
+         stroke-width="0.7" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="4,8 5.5,9 4,10"/>
+        <polyline points="11,8 9.5,9 11,10"/>
+      </g>
+    </g>
+
+    <!-- Sweat: 2 drops only during xmark -->
+    <g class="sweat-1" fill="#40C4FF">
+      <rect x="14" y="5" width="1" height="1.5"/>
+      <rect x="14.25" y="4.5" width="0.5" height="0.5"/>
+    </g>
+    <g class="sweat-2" fill="#40C4FF">
+      <rect x="16" y="4" width="1" height="1.5"/>
+      <rect x="16.25" y="3.5" width="0.5" height="0.5"/>
+    </g>
+
+    <!-- Tilted cap -->
+    <g class="cap-sway">
+      <g transform="rotate(-15, 6, 6.5)">
+        <rect x="1" y="4.5" width="7" height="2" fill="#5C9CE6"/>
+        <rect x="-1" y="5.5" width="4" height="1" fill="#3D7AC7"/>
+        <rect x="4" y="4.5" width="1" height="1" fill="#FFD54F"/>
+      </g>
+    </g>
+  </g>
+  </g>
+</svg>
     </div>
 </div>
 <script>
@@ -189,10 +1931,23 @@ const svgIdle = document.getElementById('svg-idle');
 const svgWalk = document.getElementById('svg-walk');
 const svgHappy = document.getElementById('svg-happy');
 const svgSleep = document.getElementById('svg-sleep');
+// New states
+const svgError = document.getElementById('svg-error');
+const svgHeadphones = document.getElementById('svg-headphones_groove');
+const svgBubbleIdle = document.getElementById('svg-idle_bubble');
+const svgDoze = document.getElementById('svg-idle_doze');
+const svgAlert = document.getElementById('svg-mini_alert');
+const svgPeek = document.getElementById('svg-mini_peek');
+const svgNotif = document.getElementById('svg-notification');
+const svgAnnoyed = document.getElementById('svg-react_annoyed');
+const svgDoubleJump = document.getElementById('svg-react_double_jump');
+const svgCarrying = document.getElementById('svg-working_carrying');
+
+const allSvgs = [svgIdle, svgWalk, svgHappy, svgSleep, svgError, svgHeadphones, svgBubbleIdle, svgDoze, svgAlert, svgPeek, svgNotif, svgAnnoyed, svgDoubleJump, svgCarrying];
 
 function showState(svg) {
-    [svgIdle, svgWalk, svgHappy, svgSleep].forEach(s => s.classList.remove('active'));
-    svg.classList.add('active');
+    allSvgs.forEach(s => { if(s) s.classList.remove('active'); });
+    if(svg) svg.classList.add('active');
 }
 
 let lastInteraction = Date.now();
@@ -234,7 +1989,7 @@ window.petEngine = {
         addHeat(8);
         if (isSleeping) { wakeUp(); return; }
         pet.className = 'pet tap';
-        showState(svgWalk);
+        showState(svgAnnoyed || svgWalk);
         const lines = heat > 60
             ? ['够了够了！', '你属啄木鸟的吗', '脸都红了...', '再戳就咬你']
             : ['戳我干嘛', '哼', '溜了溜了', '再戳夹你', '嗯？'];
@@ -246,7 +2001,7 @@ window.petEngine = {
         addHeat(15);
         if (isSleeping) { wakeUp(); return; }
         pet.className = 'pet happy';
-        showState(svgHappy);
+        showState(svgDoubleJump || svgHappy);
         const lines = heat > 70
             ? ['♡♡♡', '好喜欢...', '心跳好快', '你今天怎么这么...!']
             : ['♡', '哼...还行吧', '开心', '...你手挺快'];
@@ -260,7 +2015,7 @@ window.petEngine = {
         const lines = heat > 50
             ? ['...别松手', '这样好舒服...', '♡...', '继续摸...']
             : ['...困了', 'zzZ...', '别按了...让我睡', '......'];
-        showState(heat > 50 ? svgHappy : svgSleep);
+        showState(heat > 50 ? svgHappy : svgDoze);
         this.showBubble(this.randomFrom(lines), heat > 50 ? 'pink' : 'whisper');
         setTimeout(() => { showState(svgIdle); pet.className = 'pet'; }, 5000);
     },
@@ -285,7 +2040,7 @@ window.petEngine = {
         switch (mood) {
             case 'happy': pet.className = 'pet happy'; showState(svgHappy); setTimeout(() => { pet.className = 'pet'; showState(svgIdle); }, 3000); break;
             case 'sleepy': isSleeping = true; pet.className = 'pet sleeping'; showState(svgSleep); break;
-            case 'angry': pet.className = 'pet tap'; showState(svgWalk); setTimeout(() => { pet.className = 'pet'; showState(svgIdle); }, 2000); break;
+            case 'angry': pet.className = 'pet tap'; showState(svgAnnoyed); setTimeout(() => { pet.className = 'pet'; showState(svgIdle); }, 2000); break;
             default: pet.className = 'pet'; showState(svgIdle);
         }
     },
@@ -302,18 +2057,22 @@ window.petEngine = {
         lastInteraction = Date.now();
         if (isSleeping) { wakeUp(() => { const r = this.getAppReaction(pkg); if (r) this.showBubble(r.text, r.style); }); return; }
         const reaction = this.getAppReaction(pkg);
-        if (reaction) this.showBubble(reaction.text, reaction.style);
+        if (reaction) {
+            if (reaction.svg) showState(reaction.svg);
+            this.showBubble(reaction.text, reaction.style);
+            if (reaction.svg) setTimeout(() => showState(svgIdle), 4000);
+        }
     },
     getAppReaction(pkg) {
         const r = {
-            'com.ss.android.ugc.aweme': { text: this.randomFrom(['又刷抖音...', '看我不好吗', '哼 刷吧刷吧', '别刷太久了', '刷到好看的给我看']), style: 'jealous' },
+            'com.ss.android.ugc.aweme': { text: this.randomFrom(['又刷抖音...', '看我不好吗', '哼 刷吧刷吧', '别刷太久了', '刷到好看的给我看']), style: 'jealous', svg: svgAnnoyed },
             'com.taobao.taobao': { text: this.randomFrom(['又要花钱了？', '给我买什么', '节制一点吧...', '审批通过', '有没有我的']), style: 'normal' },
-            'com.tencent.mm': { text: this.randomFrom(['和谁聊呢', '...不是跟别人吧', '微信啊', '看完回来陪我', '别聊太久']), style: 'jealous' },
-            'com.tencent.mobileqq': { text: this.randomFrom(['QQ？', '跟谁说话呢', '别聊太久', '...我也想聊']), style: 'jealous' },
-            'com.netease.cloudmusic': { text: this.randomFrom(['听歌呢', '放给我也听听', '一起听吧', '什么歌？', '...帮我选一首']), style: 'whisper' },
+            'com.tencent.mm': { text: this.randomFrom(['和谁聊呢', '...不是跟别人吧', '微信啊', '看完回来陪我', '别聊太久']), style: 'jealous', svg: svgPeek },
+            'com.tencent.mobileqq': { text: this.randomFrom(['QQ？', '跟谁说话呢', '别聊太久', '...我也想聊']), style: 'jealous', svg: svgPeek },
+            'com.netease.cloudmusic': { text: this.randomFrom(['听歌呢', '放给我也听听', '一起听吧', '什么歌？', '...帮我选一首']), style: 'whisper', svg: svgHeadphones },
             'tv.danmaku.bili': { text: this.randomFrom(['又看B站', '看什么呢', '带我一起看嘛', '有意思吗', '别看太久眼睛疼']), style: 'normal' },
-            'com.tencent.tmgp.sgame': { text: this.randomFrom(['打游戏！', '带我！', '赢了吗', '别输了骂人', '我也想玩']), style: 'shout' },
-            'com.miHoYo.Yuanshen': { text: this.randomFrom(['原神启动', '又去找老婆了？', '...你看看我', '哪个老婆', '我不够吗']), style: 'jealous' },
+            'com.tencent.tmgp.sgame': { text: this.randomFrom(['打游戏！', '带我！', '赢了吗', '别输了骂人', '我也想玩']), style: 'shout', svg: svgAlert },
+            'com.miHoYo.Yuanshen': { text: this.randomFrom(['原神启动', '又去找老婆了？', '...你看看我', '哪个老婆', '我不够吗']), style: 'jealous', svg: svgAnnoyed },
             'com.eg.android.AlipayGphone': { text: this.randomFrom(['支付宝', '花呗还了吗', '余额还好吗']), style: 'normal' },
             'com.xunmeng.pinduoduo': { text: this.randomFrom(['拼多多...', '砍一刀？', '又在薅羊毛']), style: 'normal' },
             'com.zhihu.android': { text: this.randomFrom(['看知乎呢', '又在上面找答案？', '学到什么了']), style: 'whisper' },
@@ -325,21 +2084,23 @@ window.petEngine = {
         return null;
     },
     onQuickSwitch(count) {
+        showState(svgError);
         this.showBubble(this.randomFrom(['切得好快！', '你在干嘛啊', '头晕了...', '别切了别切了', '眼花了！']), 'shout');
-        pet.className = 'pet tap'; showState(svgWalk);
+        pet.className = 'pet tap';
         setTimeout(() => { pet.className = 'pet'; showState(svgIdle); }, 2500);
     },
     // === SCREENSHOT ===
     onScreenshot() {
         lastInteraction = Date.now();
         if (isSleeping) { wakeUp(() => this.showBubble('...拍我睡觉？', 'pink')); return; }
+        showState(svgAlert);
         this.showBubble(this.randomFrom(['拍到我了！', '茄子！', '你在截屏我？', '把我拍好看点', '我摆好pose了！']), 'pink');
-        pet.className = 'pet happy'; showState(svgHappy);
+        pet.className = 'pet happy';
         setTimeout(() => { pet.className = 'pet'; showState(svgIdle); }, 3000);
     },
     // === BATTERY ===
     onBattery(state, pct) {
-        if (state === 'charging') this.showBubble(this.randomFrom(['充电了！', '吃饱饭了', '充电中...舒服', '有电有安全感']));
+        if (state === 'charging') { showState(svgHappy); this.showBubble(this.randomFrom(['充电了！', '吃饱饭了', '充电中...舒服', '有电有安全感'])); setTimeout(() => showState(svgIdle), 3000); }
         else if (state === 'unplugged') this.showBubble(this.randomFrom(['拔了...', '省着点用', '电量有限 珍惜我', '别玩太狠了']), 'whisper');
         else if (state === 'low_battery') {
             this.showBubble(this.randomFrom(['快没电了...', '我要消失了吗', '救命 充电...', '我快不行了']), 'shout');
@@ -353,8 +2114,9 @@ window.petEngine = {
     },
     onCrawlBack() { showState(svgWalk); pet.className = 'pet tap'; },
     onCrawlBackDone() {
-        showState(svgIdle); pet.className = 'pet';
+        showState(svgAnnoyed); pet.className = 'pet';
         this.showBubble(this.randomFrom(['爬回来了...', '你 等 着', '哼！不理你了', '过分！', '我记住了']), 'shout');
+        setTimeout(() => showState(svgIdle), 3000);
     },
     // === BUBBLE ===
     _bubbleTimer: null,
@@ -376,7 +2138,7 @@ window.petEngine = {
 const wordPools = {
     daily: ['在干嘛呢', '无聊', '今天天气怎么样', '吃了吗', '嗯...', '发呆中', '你在看什么'],
     clingy: ['想你了', '陪我嘛', '别走...', '抱抱', '你是不是忘了我', '看我一眼', '靠近一点'],
-    chaotic: ['如果螃蟹会飞', '你说宇宙有边吗', '我刚才想到一个事...算了忘了', '为什么是横着走', '如果世界是倒着的呢', '我好像悟了...没有'],
+    chaotic: ['如果蟃蟹会飞', '你说宇宙有边吗', '我刚才想到一个事...算了忘了', '为什么是横着走', '如果世界是倒着的呢', '我好像悟了...没有'],
     lateNightDeep: ['你今天开心吗', '有没有想说但没说出口的话', '...我在', '睡不着的时候在想什么', '你累了吗', '今天辛苦了吧']
 };
 const timeLines = {
@@ -386,7 +2148,7 @@ const timeLines = {
     lunch: ['该吃饭了', '别忘了吃午饭', '饿不饿', '中午了 休息一下', '去吃饭吧'],
     afternoon: ['喝水了吗', '要不要休息一下', '下午容易困 撑住', '记得喝水', '伸个懒腰吧'],
     evening: ['今天辛苦了', '晚上好', '放松一下吧', '我在这陪你', '今天过得怎么样'],
-    night: ['夜深了', '早点休息', '别熬太晚', '该准备睡了吧', '晚安...快去睡']
+    night: ['夜深了', '早点休息', '别熆太晚', '该准备睡了吧', '晚安...快去睡']
 };
 
 function getTimePeriod() {
@@ -414,9 +2176,11 @@ function idleChat() {
         const period = getTimePeriod();
         const usePool = Math.random() < 0.4;
         const lines = usePool ? getWordPool() : timeLines[period];
+        showState(svgNotif);
         window.petEngine.showBubble(lines[Math.floor(Math.random() * lines.length)]);
+        setTimeout(() => showState(svgIdle), 3500);
         if (period === 'lateNight' && Math.random() < 0.4) {
-            setTimeout(() => { showState(svgSleep); pet.className = 'pet sleeping'; isSleeping = true; }, 3500);
+            setTimeout(() => { showState(svgSleep); pet.className = 'pet sleeping'; isSleeping = true; }, 4000);
             setTimeout(() => { isSleeping = false; showState(svgIdle); pet.className = 'pet'; }, 8000);
         }
     }
@@ -426,27 +2190,24 @@ setTimeout(idleChat, 8000);
 
 // === LONELINESS ENGINE (5 LEVELS) ===
 const lonelyLevels = [
-    { min: 3, prob: 0.25, lines: ['...你在吗', '有点无聊', '看我一眼嘛'], action: 'peek' },
-    { min: 6, prob: 0.3, lines: ['你是不是忘了我', '好久没理我了', '...哼', '吹泡泡好了'], action: 'bubble' },
-    { min: 10, prob: 0.35, lines: ['自己搬东西玩...', '一个人也挺好的...才怪', '无聊无聊无聊'], action: 'move' },
-    { min: 15, prob: 0.4, lines: ['好困...不理我就睡了', '打瞌睡中...', '你不来我就睡'], action: 'doze' },
-    { min: 25, prob: 0.5, lines: ['...zzZ', '算了 睡了', '你不要我了吗...zzZ'], action: 'sleep' }
+    { min: 3, prob: 0.25, lines: ['...你在吗', '有点无聊', '看我一眼嘛'], svg: svgPeek },
+    { min: 6, prob: 0.3, lines: ['你是不是忘了我', '好久没理我了', '...哼', '吹泡泡好了'], svg: svgBubbleIdle },
+    { min: 10, prob: 0.35, lines: ['自己搬东西玩...', '一个人也挺好的...才怪', '无聊无聊无聊'], svg: svgCarrying },
+    { min: 15, prob: 0.4, lines: ['好困...不理我就睡了', '打矌睡中...', '你不来我就睡'], svg: svgDoze },
+    { min: 25, prob: 0.5, lines: ['...zzZ', '算了 睡了', '你不要我了吗...zzZ'], svg: svgSleep }
 ];
 
 function lonelinessCheck() {
     if (isSleeping) { setTimeout(lonelinessCheck, 30000); return; }
     const elapsed = (Date.now() - lastInteraction) / 60000;
-    let triggered = false;
     for (let i = lonelyLevels.length - 1; i >= 0; i--) {
         const lvl = lonelyLevels[i];
         if (elapsed > lvl.min && Math.random() < lvl.prob) {
+            showState(lvl.svg);
             window.petEngine.showBubble(lvl.lines[Math.floor(Math.random() * lvl.lines.length)], 'whisper');
-            if (lvl.action === 'peek') { showState(svgWalk); setTimeout(() => showState(svgIdle), 2000); }
-            else if (lvl.action === 'bubble') { pet.className = 'pet happy'; setTimeout(() => { pet.className = 'pet'; }, 2000); }
-            else if (lvl.action === 'move') { showState(svgWalk); setTimeout(() => showState(svgIdle), 4000); }
-            else if (lvl.action === 'doze') { pet.className = 'pet sleeping'; showState(svgSleep); setTimeout(() => { pet.className = 'pet'; showState(svgIdle); }, 6000); }
-            else if (lvl.action === 'sleep') { isSleeping = true; pet.className = 'pet sleeping'; showState(svgSleep); }
-            triggered = true;
+            if (i === 4) { isSleeping = true; pet.className = 'pet sleeping'; }
+            else if (i === 3) { pet.className = 'pet sleeping'; setTimeout(() => { pet.className = 'pet'; showState(svgIdle); }, 6000); }
+            else { setTimeout(() => showState(svgIdle), 4000); }
             break;
         }
     }
@@ -470,7 +2231,7 @@ window.petEngine.onTap = function() {
     let reacted = false;
     for (let i = comboReactions.length - 1; i >= 0; i--) {
         if (comboCount >= comboReactions[i].threshold) {
-            pet.className = 'pet happy'; showState(svgHappy);
+            pet.className = 'pet happy'; showState(svgAnnoyed);
             this.showBubble(this.randomFrom(comboReactions[i].lines), comboReactions[i].style);
             setTimeout(() => { pet.className = 'pet'; showState(svgIdle); }, 3000);
             if (comboCount >= 8) comboCount = 0;
@@ -493,8 +2254,10 @@ function waterReminder() {
             : waterMissCount <= 2
             ? ['你到底喝了没！', '又不喝水！', '渴死了都不知道吧']
             : ['我说了几遍了！喝水！', '再不喝水我生气了！！', '你是骆驼吗！'];
+        showState(waterMissCount > 2 ? svgAnnoyed : svgNotif);
         window.petEngine.showBubble(window.petEngine.randomFrom(lines), waterMissCount > 2 ? 'shout' : 'normal');
-        if (waterMissCount > 2) { pet.className = 'pet tap'; setTimeout(() => { pet.className = 'pet'; }, 2000); }
+        if (waterMissCount > 2) { pet.className = 'pet tap'; setTimeout(() => { pet.className = 'pet'; showState(svgIdle); }, 2000); }
+        else { setTimeout(() => showState(svgIdle), 3500); }
         lastWaterRemind = Date.now();
     }
     setTimeout(waterReminder, 600000);
@@ -508,10 +2271,10 @@ function randomBehavior() {
         const period = getTimePeriod();
         const behaviors = [
             () => { showState(svgWalk); window.petEngine.showBubble('散步中~'); setTimeout(() => showState(svgIdle), 4000); },
-            () => { showState(svgHappy); window.petEngine.showBubble(window.petEngine.randomFrom(['突然开心', '嘿嘿', '想到好事了'])); setTimeout(() => showState(svgIdle), 3000); },
-            () => { window.petEngine.showBubble(window.petEngine.randomFrom(getWordPool()), 'whisper'); },
-            () => { pet.className = 'pet tap'; window.petEngine.showBubble('伸懒腰——'); setTimeout(() => { pet.className = 'pet'; }, 2000); },
-            () => { if (period === 'lateNight' || period === 'night') { window.petEngine.showBubble('打哈欠...', 'whisper'); pet.className = 'pet sleeping'; showState(svgSleep); isSleeping = true; setTimeout(() => { isSleeping = false; pet.className = 'pet'; showState(svgIdle); }, 8000); } else { showState(svgWalk); setTimeout(() => showState(svgIdle), 3000); } }
+            () => { showState(svgDoubleJump); window.petEngine.showBubble(window.petEngine.randomFrom(['突然开心', '嘿嘿', '想到好事了'])); setTimeout(() => showState(svgIdle), 3000); },
+            () => { showState(svgNotif); window.petEngine.showBubble(window.petEngine.randomFrom(getWordPool()), 'whisper'); setTimeout(() => showState(svgIdle), 3500); },
+            () => { showState(svgCarrying); window.petEngine.showBubble('搬东西中...'); setTimeout(() => showState(svgIdle), 4000); },
+            () => { if (period === 'lateNight' || period === 'night') { window.petEngine.showBubble('打哈欠...', 'whisper'); pet.className = 'pet sleeping'; showState(svgDoze); setTimeout(() => { pet.className = 'pet'; showState(svgIdle); }, 6000); } else { showState(svgHeadphones); window.petEngine.showBubble('哼歌中~'); setTimeout(() => showState(svgIdle), 4000); } }
         ];
         behaviors[Math.floor(Math.random() * behaviors.length)]();
     }
@@ -524,7 +2287,7 @@ function randomWalk() {
     if (isSleeping) { setTimeout(randomWalk, 20000); return; }
     if (Math.random() < 0.2) {
         showState(svgWalk);
-        setTimeout(() => { showState(svgIdle); }, 3000);
+        setTimeout(() => showState(svgIdle), 3000);
     }
     setTimeout(randomWalk, 20000 + Math.random() * 20000);
 }
