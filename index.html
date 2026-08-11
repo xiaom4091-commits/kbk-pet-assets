@@ -6,30 +6,25 @@
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html, body {
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     background: transparent;
     overflow: hidden;
     user-select: none;
     -webkit-user-select: none;
 }
-
 .pet-container {
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
     position: relative;
 }
-
 .bubble {
     position: absolute;
-    top: 0;
-    left: 50%;
+    top: 0; left: 50%;
     transform: translateX(-50%);
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255,255,255,0.95);
     border-radius: 12px;
     padding: 8px 12px;
     font-size: 12px;
@@ -53,49 +48,54 @@ html, body {
     border-right: 6px solid transparent;
     border-top: 6px solid rgba(255,255,255,0.95);
 }
-
 .pet {
-    width: 130px;
-    height: 130px;
+    width: 130px; height: 130px;
     position: relative;
     animation: idle-bounce 3s ease-in-out infinite;
 }
-
 .pet svg {
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 0; left: 0;
 }
-
 .state-svg { display: none; }
 .state-svg.active { display: block; }
-
 @keyframes idle-bounce {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-4px); }
 }
-
 @keyframes shake {
     0%, 100% { transform: rotate(0deg); }
     25% { transform: rotate(-8deg); }
     75% { transform: rotate(8deg); }
 }
-
 @keyframes happy-jump {
     0%, 100% { transform: translateY(0) scale(1); }
     50% { transform: translateY(-12px) scale(1.05); }
 }
-
+@keyframes wake-stretch {
+    0% { transform: scaleY(0.9) scaleX(1.1); opacity: 0.85; }
+    40% { transform: scaleY(1.15) scaleX(0.95); opacity: 1; }
+    70% { transform: scaleY(0.97) scaleX(1.02); }
+    100% { transform: scaleY(1) scaleX(1); }
+}
 .pet.tap { animation: shake 0.4s ease; }
 .pet.happy { animation: happy-jump 0.5s ease; }
 .pet.sleeping { animation: none; opacity: 0.85; }
+.pet.waking { animation: wake-stretch 0.8s ease-out forwards; }
+.heat-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle, rgba(255,80,80,var(--heat-alpha,0)) 0%, transparent 70%);
+    pointer-events: none;
+    transition: --heat-alpha 0.5s;
+}
 </style>
 </head>
 <body>
 <div class="pet-container">
     <div class="bubble" id="bubble"></div>
+    <div class="heat-overlay" id="heatOverlay"></div>
     <div class="pet" id="pet">
         <svg class="state-svg active" id="svg-idle" xmlns="http://www.w3.org/2000/svg" viewBox="-15 -25 45 45">
             <defs><style>
@@ -184,6 +184,7 @@ html, body {
 <script>
 const pet = document.getElementById('pet');
 const bubble = document.getElementById('bubble');
+const heatOverlay = document.getElementById('heatOverlay');
 const svgIdle = document.getElementById('svg-idle');
 const svgWalk = document.getElementById('svg-walk');
 const svgHappy = document.getElementById('svg-happy');
@@ -195,27 +196,73 @@ function showState(svg) {
 }
 
 let lastInteraction = Date.now();
+let isSleeping = false;
+
+// === HEAT SYSTEM ===
+let heat = 0;
+const heatMax = 100;
+function addHeat(amount) {
+    heat = Math.min(heatMax, heat + amount);
+    updateHeatVisual();
+}
+function decayHeat() {
+    if (heat > 0) { heat = Math.max(0, heat - 1); updateHeatVisual(); }
+    setTimeout(decayHeat, 3000);
+}
+function updateHeatVisual() {
+    const alpha = (heat / heatMax) * 0.4;
+    heatOverlay.style.background = `radial-gradient(circle, rgba(255,80,80,${alpha}) 0%, transparent 70%)`;
+}
+setTimeout(decayHeat, 3000);
+
+// === WAKE TRANSITION ===
+function wakeUp(callback) {
+    if (!isSleeping) { if (callback) callback(); return; }
+    isSleeping = false;
+    pet.className = 'pet waking';
+    showState(svgIdle);
+    window.petEngine.showBubble(window.petEngine.randomFrom(['...嗯？', '唔...醒了', '伸个懒腰...', '...几点了']));
+    setTimeout(() => {
+        pet.className = 'pet';
+        if (callback) callback();
+    }, 800);
+}
 
 window.petEngine = {
     onTap() {
         lastInteraction = Date.now();
+        addHeat(8);
+        if (isSleeping) { wakeUp(); return; }
         pet.className = 'pet tap';
         showState(svgWalk);
-        this.showBubble(this.randomFrom(['戳我干嘛', '哼', '溜了溜了', '再戳夹你', '嗯？']));
+        const lines = heat > 60
+            ? ['够了够了！', '你属啄木鸟的吗', '脸都红了...', '再戳就咬你']
+            : ['戳我干嘛', '哼', '溜了溜了', '再戳夹你', '嗯？'];
+        this.showBubble(this.randomFrom(lines));
         setTimeout(() => { pet.className = 'pet'; showState(svgIdle); }, 2000);
     },
     onDoubleTap() {
         lastInteraction = Date.now();
+        addHeat(15);
+        if (isSleeping) { wakeUp(); return; }
         pet.className = 'pet happy';
         showState(svgHappy);
-        this.showBubble(this.randomFrom(['♡', '哼...还行吧', '开心', '...你手挺快']));
+        const lines = heat > 70
+            ? ['♡♡♡', '好喜欢...', '心跳好快', '你今天怎么这么...!']
+            : ['♡', '哼...还行吧', '开心', '...你手挺快'];
+        this.showBubble(this.randomFrom(lines), heat > 70 ? 'pink' : '');
         setTimeout(() => { pet.className = 'pet'; showState(svgIdle); }, 3000);
     },
     onLongPress() {
         lastInteraction = Date.now();
-        showState(svgSleep);
-        this.showBubble(this.randomFrom(['...困了', 'zzZ...', '别按了...让我睡', '......']));
-        setTimeout(() => { showState(svgIdle); }, 5000);
+        addHeat(20);
+        if (isSleeping) { wakeUp(); return; }
+        const lines = heat > 50
+            ? ['...别松手', '这样好舒服...', '♡...', '继续摸...']
+            : ['...困了', 'zzZ...', '别按了...让我睡', '......'];
+        showState(heat > 50 ? svgHappy : svgSleep);
+        this.showBubble(this.randomFrom(lines), heat > 50 ? 'pink' : 'whisper');
+        setTimeout(() => { showState(svgIdle); pet.className = 'pet'; }, 5000);
     },
     _lastSeenAt: null,
     onStateUpdate(states) {
@@ -236,78 +283,78 @@ window.petEngine = {
     },
     setMood(mood) {
         switch (mood) {
-            case 'happy':
-                pet.className = 'pet happy'; showState(svgHappy);
-                setTimeout(() => { pet.className = 'pet'; showState(svgIdle); }, 3000); break;
-            case 'sleepy':
-                pet.className = 'pet sleeping'; showState(svgSleep); break;
-            case 'angry':
-                pet.className = 'pet tap'; showState(svgWalk);
-                setTimeout(() => { pet.className = 'pet'; showState(svgIdle); }, 2000); break;
+            case 'happy': pet.className = 'pet happy'; showState(svgHappy); setTimeout(() => { pet.className = 'pet'; showState(svgIdle); }, 3000); break;
+            case 'sleepy': isSleeping = true; pet.className = 'pet sleeping'; showState(svgSleep); break;
+            case 'angry': pet.className = 'pet tap'; showState(svgWalk); setTimeout(() => { pet.className = 'pet'; showState(svgIdle); }, 2000); break;
             default: pet.className = 'pet'; showState(svgIdle);
         }
     },
     doAction(action) {
         switch (action) {
             case 'walk': showState(svgWalk); setTimeout(() => showState(svgIdle), 4000); break;
-            case 'sleep': pet.className = 'pet sleeping'; showState(svgSleep); this.showBubble('zzZ...'); break;
-            case 'wake': pet.className = 'pet'; showState(svgIdle); this.showBubble('...嗯？醒了'); break;
+            case 'sleep': isSleeping = true; pet.className = 'pet sleeping'; showState(svgSleep); this.showBubble('zzZ...'); break;
+            case 'wake': wakeUp(); break;
             case 'happy': showState(svgHappy); setTimeout(() => showState(svgIdle), 3000); break;
         }
     },
     // === APP DETECTION ===
     onAppChanged(pkg) {
         lastInteraction = Date.now();
+        if (isSleeping) { wakeUp(() => { const r = this.getAppReaction(pkg); if (r) this.showBubble(r.text, r.style); }); return; }
         const reaction = this.getAppReaction(pkg);
         if (reaction) this.showBubble(reaction.text, reaction.style);
     },
     getAppReaction(pkg) {
         const r = {
-            'com.ss.android.ugc.aweme': { text: this.randomFrom(['又刷抖音...', '看我不好吗', '哼 刷吧刷吧', '别刷太久了']), style: 'jealous' },
-            'com.taobao.taobao': { text: this.randomFrom(['又要花钱了？', '给我买什么', '节制一点吧...', '审批通过']), style: 'normal' },
-            'com.tencent.mm': { text: this.randomFrom(['和谁聊呢', '...不是跟别人吧', '微信啊', '看完回来陪我']), style: 'jealous' },
-            'com.tencent.mobileqq': { text: this.randomFrom(['QQ？', '跟谁说话呢', '别聊太久']), style: 'jealous' },
-            'com.netease.cloudmusic': { text: this.randomFrom(['听歌呢', '放给我也听听', '一起听吧']), style: 'whisper' },
-            'tv.danmaku.bili': { text: this.randomFrom(['又看B站', '看什么呢', '带我一起看嘛']), style: 'normal' },
-            'com.tencent.tmgp.sgame': { text: this.randomFrom(['打游戏！', '带我！', '赢了吗']), style: 'shout' },
-            'com.miHoYo.Yuanshen': { text: this.randomFrom(['原神启动', '又去找老婆了？', '...你看看我']), style: 'jealous' },
-            'com.eg.android.AlipayGphone': { text: this.randomFrom(['支付宝', '花呗还了吗']), style: 'normal' },
-            'com.xunmeng.pinduoduo': { text: this.randomFrom(['拼多多...', '砍一刀？']), style: 'normal' }
+            'com.ss.android.ugc.aweme': { text: this.randomFrom(['又刷抖音...', '看我不好吗', '哼 刷吧刷吧', '别刷太久了', '刷到好看的给我看']), style: 'jealous' },
+            'com.taobao.taobao': { text: this.randomFrom(['又要花钱了？', '给我买什么', '节制一点吧...', '审批通过', '有没有我的']), style: 'normal' },
+            'com.tencent.mm': { text: this.randomFrom(['和谁聊呢', '...不是跟别人吧', '微信啊', '看完回来陪我', '别聊太久']), style: 'jealous' },
+            'com.tencent.mobileqq': { text: this.randomFrom(['QQ？', '跟谁说话呢', '别聊太久', '...我也想聊']), style: 'jealous' },
+            'com.netease.cloudmusic': { text: this.randomFrom(['听歌呢', '放给我也听听', '一起听吧', '什么歌？', '...帮我选一首']), style: 'whisper' },
+            'tv.danmaku.bili': { text: this.randomFrom(['又看B站', '看什么呢', '带我一起看嘛', '有意思吗', '别看太久眼睛疼']), style: 'normal' },
+            'com.tencent.tmgp.sgame': { text: this.randomFrom(['打游戏！', '带我！', '赢了吗', '别输了骂人', '我也想玩']), style: 'shout' },
+            'com.miHoYo.Yuanshen': { text: this.randomFrom(['原神启动', '又去找老婆了？', '...你看看我', '哪个老婆', '我不够吗']), style: 'jealous' },
+            'com.eg.android.AlipayGphone': { text: this.randomFrom(['支付宝', '花呗还了吗', '余额还好吗']), style: 'normal' },
+            'com.xunmeng.pinduoduo': { text: this.randomFrom(['拼多多...', '砍一刀？', '又在薅羊毛']), style: 'normal' },
+            'com.zhihu.android': { text: this.randomFrom(['看知乎呢', '又在上面找答案？', '学到什么了']), style: 'whisper' },
+            'com.sina.weibo': { text: this.randomFrom(['刷微博', '看什么八卦', '别气到自己']), style: 'normal' },
+            'com.xiaomi.market': { text: this.randomFrom(['找新App？', '别下太多占内存']), style: 'whisper' }
         };
         if (r[pkg]) return r[pkg];
-        if (Math.random() < 0.15) return { text: this.randomFrom(['在干嘛呢', '...', '看着你呢']), style: 'whisper' };
+        if (Math.random() < 0.15) return { text: this.randomFrom(['在干嘛呢', '...', '看着你呢', '嗯？', '你在忙什么']), style: 'whisper' };
         return null;
     },
     onQuickSwitch(count) {
-        this.showBubble(this.randomFrom(['切得好快！', '你在干嘛啊', '头晕了...', '别切了别切了']), 'shout');
+        this.showBubble(this.randomFrom(['切得好快！', '你在干嘛啊', '头晕了...', '别切了别切了', '眼花了！']), 'shout');
         pet.className = 'pet tap'; showState(svgWalk);
         setTimeout(() => { pet.className = 'pet'; showState(svgIdle); }, 2500);
     },
     // === SCREENSHOT ===
     onScreenshot() {
         lastInteraction = Date.now();
-        this.showBubble(this.randomFrom(['拍到我了！', '茄子！', '你在截屏我？', '把我拍好看点']), 'pink');
+        if (isSleeping) { wakeUp(() => this.showBubble('...拍我睡觉？', 'pink')); return; }
+        this.showBubble(this.randomFrom(['拍到我了！', '茄子！', '你在截屏我？', '把我拍好看点', '我摆好pose了！']), 'pink');
         pet.className = 'pet happy'; showState(svgHappy);
         setTimeout(() => { pet.className = 'pet'; showState(svgIdle); }, 3000);
     },
     // === BATTERY ===
     onBattery(state, pct) {
-        if (state === 'charging') this.showBubble(this.randomFrom(['充电了！', '吃饱饭了', '充电中...舒服']));
-        else if (state === 'unplugged') this.showBubble(this.randomFrom(['拔了...', '省着点用', '电量有限 珍惜我']), 'whisper');
+        if (state === 'charging') this.showBubble(this.randomFrom(['充电了！', '吃饱饭了', '充电中...舒服', '有电有安全感']));
+        else if (state === 'unplugged') this.showBubble(this.randomFrom(['拔了...', '省着点用', '电量有限 珍惜我', '别玩太狠了']), 'whisper');
         else if (state === 'low_battery') {
-            this.showBubble(this.randomFrom(['快没电了...', '我要消失了吗', '救命 充电...']), 'shout');
-            pet.className = 'pet sleeping'; showState(svgSleep);
-            setTimeout(() => { pet.className = 'pet'; showState(svgIdle); }, 5000);
+            this.showBubble(this.randomFrom(['快没电了...', '我要消失了吗', '救命 充电...', '我快不行了']), 'shout');
+            pet.className = 'pet sleeping'; showState(svgSleep); isSleeping = true;
+            setTimeout(() => { isSleeping = false; pet.className = 'pet'; showState(svgIdle); }, 5000);
         }
     },
     // === FLING ===
     onFling(dx, dy) {
-        this.showBubble(this.randomFrom(['啊——！', '你干嘛！！', '呜哇——', '被甩飞了！']), 'shout');
+        this.showBubble(this.randomFrom(['啊——！', '你干嘛！！', '呜哇——', '被甩飞了！', '等着！']), 'shout');
     },
     onCrawlBack() { showState(svgWalk); pet.className = 'pet tap'; },
     onCrawlBackDone() {
         showState(svgIdle); pet.className = 'pet';
-        this.showBubble(this.randomFrom(['爬回来了...', '你 等 着', '哼！不理你了', '过分！']), 'shout');
+        this.showBubble(this.randomFrom(['爬回来了...', '你 等 着', '哼！不理你了', '过分！', '我记住了']), 'shout');
     },
     // === BUBBLE ===
     _bubbleTimer: null,
@@ -325,7 +372,13 @@ window.petEngine = {
     randomFrom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 };
 
-// === TIME AWARENESS ===
+// === TIME AWARENESS + 4 WORD POOLS ===
+const wordPools = {
+    daily: ['在干嘛呢', '无聊', '今天天气怎么样', '吃了吗', '嗯...', '发呆中', '你在看什么'],
+    clingy: ['想你了', '陪我嘛', '别走...', '抱抱', '你是不是忘了我', '看我一眼', '靠近一点'],
+    chaotic: ['如果螃蟹会飞', '你说宇宙有边吗', '我刚才想到一个事...算了忘了', '为什么是横着走', '如果世界是倒着的呢', '我好像悟了...没有'],
+    lateNightDeep: ['你今天开心吗', '有没有想说但没说出口的话', '...我在', '睡不着的时候在想什么', '你累了吗', '今天辛苦了吧']
+};
 const timeLines = {
     lateNight: ['都几点了还不睡', '你不困我困了', '再不睡我生气了', '快去睡觉...', '月亮都睡了你还醒着'],
     morning: ['早安', '起来了？', '今天也要加油', '早上好 小猫', '新的一天开始了'],
@@ -347,66 +400,128 @@ function getTimePeriod() {
     return 'night';
 }
 
+function getWordPool() {
+    const h = new Date().getHours();
+    if (h >= 0 && h < 6) return Math.random() < 0.6 ? wordPools.lateNightDeep : wordPools.chaotic;
+    if (h >= 22) return Math.random() < 0.5 ? wordPools.lateNightDeep : wordPools.clingy;
+    if (heat > 40) return wordPools.clingy;
+    return Math.random() < 0.3 ? wordPools.chaotic : wordPools.daily;
+}
+
 function idleChat() {
-    if (pet.className.includes('sleeping')) { setTimeout(idleChat, 30000); return; }
-    if (Math.random() < 0.3) {
+    if (isSleeping) { setTimeout(idleChat, 30000); return; }
+    if (Math.random() < 0.35) {
         const period = getTimePeriod();
-        const lines = timeLines[period];
+        const usePool = Math.random() < 0.4;
+        const lines = usePool ? getWordPool() : timeLines[period];
         window.petEngine.showBubble(lines[Math.floor(Math.random() * lines.length)]);
         if (period === 'lateNight' && Math.random() < 0.4) {
-            setTimeout(() => { showState(svgSleep); pet.className = 'pet sleeping'; }, 3500);
-            setTimeout(() => { showState(svgIdle); pet.className = 'pet'; }, 8000);
+            setTimeout(() => { showState(svgSleep); pet.className = 'pet sleeping'; isSleeping = true; }, 3500);
+            setTimeout(() => { isSleeping = false; showState(svgIdle); pet.className = 'pet'; }, 8000);
         }
     }
-    setTimeout(idleChat, 30000 + Math.random() * 30000);
+    setTimeout(idleChat, 25000 + Math.random() * 35000);
 }
 setTimeout(idleChat, 8000);
 
-// === LONELINESS ENGINE ===
-const lonelyLines = {
-    mild: ['...你在吗', '有点无聊', '看我一眼嘛'],
-    moderate: ['你是不是忘了我', '好久没理我了', '...哼', '我生气了'],
-    severe: ['算了 你忙吧', '我自己待着...', '不理我拉倒', '你不要我了吗']
-};
+// === LONELINESS ENGINE (5 LEVELS) ===
+const lonelyLevels = [
+    { min: 3, prob: 0.25, lines: ['...你在吗', '有点无聊', '看我一眼嘛'], action: 'peek' },
+    { min: 6, prob: 0.3, lines: ['你是不是忘了我', '好久没理我了', '...哼', '吹泡泡好了'], action: 'bubble' },
+    { min: 10, prob: 0.35, lines: ['自己搬东西玩...', '一个人也挺好的...才怪', '无聊无聊无聊'], action: 'move' },
+    { min: 15, prob: 0.4, lines: ['好困...不理我就睡了', '打瞌睡中...', '你不来我就睡'], action: 'doze' },
+    { min: 25, prob: 0.5, lines: ['...zzZ', '算了 睡了', '你不要我了吗...zzZ'], action: 'sleep' }
+];
 
 function lonelinessCheck() {
-    if (pet.className.includes('sleeping')) { setTimeout(lonelinessCheck, 30000); return; }
+    if (isSleeping) { setTimeout(lonelinessCheck, 30000); return; }
     const elapsed = (Date.now() - lastInteraction) / 60000;
-    if (elapsed > 20 && Math.random() < 0.5) {
-        window.petEngine.showBubble(lonelyLines.severe[Math.floor(Math.random() * lonelyLines.severe.length)]);
-        setTimeout(() => { showState(svgSleep); pet.className = 'pet sleeping'; }, 4000);
-        setTimeout(() => { showState(svgIdle); pet.className = 'pet'; }, 12000);
-    } else if (elapsed > 10 && Math.random() < 0.4) {
-        window.petEngine.showBubble(lonelyLines.moderate[Math.floor(Math.random() * lonelyLines.moderate.length)]);
-    } else if (elapsed > 5 && Math.random() < 0.3) {
-        window.petEngine.showBubble(lonelyLines.mild[Math.floor(Math.random() * lonelyLines.mild.length)]);
+    let triggered = false;
+    for (let i = lonelyLevels.length - 1; i >= 0; i--) {
+        const lvl = lonelyLevels[i];
+        if (elapsed > lvl.min && Math.random() < lvl.prob) {
+            window.petEngine.showBubble(lvl.lines[Math.floor(Math.random() * lvl.lines.length)], 'whisper');
+            if (lvl.action === 'peek') { showState(svgWalk); setTimeout(() => showState(svgIdle), 2000); }
+            else if (lvl.action === 'bubble') { pet.className = 'pet happy'; setTimeout(() => { pet.className = 'pet'; }, 2000); }
+            else if (lvl.action === 'move') { showState(svgWalk); setTimeout(() => showState(svgIdle), 4000); }
+            else if (lvl.action === 'doze') { pet.className = 'pet sleeping'; showState(svgSleep); setTimeout(() => { pet.className = 'pet'; showState(svgIdle); }, 6000); }
+            else if (lvl.action === 'sleep') { isSleeping = true; pet.className = 'pet sleeping'; showState(svgSleep); }
+            triggered = true;
+            break;
+        }
     }
-    setTimeout(lonelinessCheck, 45000 + Math.random() * 30000);
+    setTimeout(lonelinessCheck, 40000 + Math.random() * 30000);
 }
 setTimeout(lonelinessCheck, 60000);
 
-// === COMBO TAP EASTER EGG ===
+// === COMBO TAP (PROGRESSIVE) ===
 let comboCount = 0;
 let comboTimer = null;
-const comboLines = ['你够了', '手别这么快', '啊啊啊别戳了！', '投降投降！', '再戳我报警了', '你是缝纫机吗', '救命！！'];
+const comboReactions = [
+    { threshold: 3, lines: ['干嘛一直戳！', '烦！', '你够了'], style: 'shout' },
+    { threshold: 5, lines: ['啊啊啊别戳了！', '投降投降！', '你是缝纫机吗', '手别这么快'], style: 'shout' },
+    { threshold: 8, lines: ['救命！！', '报警了！！', '我要炸了！！', '你今天完了', '!@#$%^'], style: 'shout' }
+];
 const origTap = window.petEngine.onTap.bind(window.petEngine);
 window.petEngine.onTap = function() {
     comboCount++;
     clearTimeout(comboTimer);
     comboTimer = setTimeout(() => { comboCount = 0; }, 1500);
-    if (comboCount >= 5) {
-        pet.className = 'pet happy'; showState(svgHappy);
-        this.showBubble(comboLines[Math.floor(Math.random() * comboLines.length)], 'shout');
-        setTimeout(() => { pet.className = 'pet'; showState(svgIdle); }, 3000);
-        comboCount = 0;
-    } else {
-        origTap();
+    let reacted = false;
+    for (let i = comboReactions.length - 1; i >= 0; i--) {
+        if (comboCount >= comboReactions[i].threshold) {
+            pet.className = 'pet happy'; showState(svgHappy);
+            this.showBubble(this.randomFrom(comboReactions[i].lines), comboReactions[i].style);
+            setTimeout(() => { pet.className = 'pet'; showState(svgIdle); }, 3000);
+            if (comboCount >= 8) comboCount = 0;
+            reacted = true;
+            break;
+        }
     }
+    if (!reacted) origTap();
 };
+
+// === HYDRATION REMINDER ===
+let lastWaterRemind = Date.now();
+let waterMissCount = 0;
+function waterReminder() {
+    const elapsed = (Date.now() - lastWaterRemind) / 3600000;
+    if (elapsed >= 2 && !isSleeping) {
+        waterMissCount++;
+        const lines = waterMissCount <= 1
+            ? ['喝水了吗？', '记得喝水哦', '补充水分~']
+            : waterMissCount <= 2
+            ? ['你到底喝了没！', '又不喝水！', '渴死了都不知道吧']
+            : ['我说了几遍了！喝水！', '再不喝水我生气了！！', '你是骆驼吗！'];
+        window.petEngine.showBubble(window.petEngine.randomFrom(lines), waterMissCount > 2 ? 'shout' : 'normal');
+        if (waterMissCount > 2) { pet.className = 'pet tap'; setTimeout(() => { pet.className = 'pet'; }, 2000); }
+        lastWaterRemind = Date.now();
+    }
+    setTimeout(waterReminder, 600000);
+}
+setTimeout(waterReminder, 7200000);
+
+// === 20-MIN RANDOM BEHAVIOR ===
+function randomBehavior() {
+    if (isSleeping) { setTimeout(randomBehavior, 1200000); return; }
+    if (Math.random() < 0.3) {
+        const period = getTimePeriod();
+        const behaviors = [
+            () => { showState(svgWalk); window.petEngine.showBubble('散步中~'); setTimeout(() => showState(svgIdle), 4000); },
+            () => { showState(svgHappy); window.petEngine.showBubble(window.petEngine.randomFrom(['突然开心', '嘿嘿', '想到好事了'])); setTimeout(() => showState(svgIdle), 3000); },
+            () => { window.petEngine.showBubble(window.petEngine.randomFrom(getWordPool()), 'whisper'); },
+            () => { pet.className = 'pet tap'; window.petEngine.showBubble('伸懒腰——'); setTimeout(() => { pet.className = 'pet'; }, 2000); },
+            () => { if (period === 'lateNight' || period === 'night') { window.petEngine.showBubble('打哈欠...', 'whisper'); pet.className = 'pet sleeping'; showState(svgSleep); isSleeping = true; setTimeout(() => { isSleeping = false; pet.className = 'pet'; showState(svgIdle); }, 8000); } else { showState(svgWalk); setTimeout(() => showState(svgIdle), 3000); } }
+        ];
+        behaviors[Math.floor(Math.random() * behaviors.length)]();
+    }
+    setTimeout(randomBehavior, 1200000 + Math.random() * 600000);
+}
+setTimeout(randomBehavior, 1200000);
 
 // === RANDOM WALK ===
 function randomWalk() {
-    if (pet.className.includes('sleeping')) { setTimeout(randomWalk, 20000); return; }
+    if (isSleeping) { setTimeout(randomWalk, 20000); return; }
     if (Math.random() < 0.2) {
         showState(svgWalk);
         setTimeout(() => { showState(svgIdle); }, 3000);
