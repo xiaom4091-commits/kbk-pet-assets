@@ -2432,6 +2432,57 @@ window.petEngine.onDoubleTap = function() {
     _origOnDoubleTap();
 };
 
+// === 节日彩蛋 ===
+(function checkSpecialDay() {
+    const now = new Date();
+    const m = now.getMonth() + 1;
+    const d = now.getDate();
+    const y = now.getFullYear();
+
+    // 农历节日对应公历日期（每年需更新）
+    const lunarDates = {
+        chunjie:  ['2025-01-29','2026-02-17','2027-02-06','2028-01-26','2029-02-13','2030-02-03'],
+        qixi:     ['2025-08-29','2026-08-19','2027-08-09','2028-08-26','2029-08-15','2030-09-03'],
+        zhongqiu: ['2025-10-06','2026-09-25','2027-10-15','2028-10-03','2029-09-22','2030-10-11'],
+    };
+    const todayStr = `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+
+    let festival = null;
+    if      (m===2  && d===14) festival = 'valentines';
+    else if (m===5  && d===20) festival = '520';
+    else if (m===4  && d===7)  festival = 'birthday';
+    else if (m===10 && d===1)  festival = 'national';
+    else if (m===12 && d===25) festival = 'christmas';
+    else if (lunarDates.chunjie.includes(todayStr))  festival = 'chunjie';
+    else if (lunarDates.qixi.includes(todayStr))     festival = 'qixi';
+    else if (lunarDates.zhongqiu.includes(todayStr)) festival = 'zhongqiu';
+
+    if (!festival) return;
+
+    const configs = {
+        valentines: { hat:'halo',   bubble:'❤️ 情人节快乐，我的小猫~',              style:'normal', svgFn:()=>svgHappy      },
+        '520':      { hat:'halo',   bubble:'520，我喜欢你。',                        style:'normal', svgFn:()=>svgHappy      },
+        birthday:   { hat:'party',  bubble:'🎂 生日快乐，今天是你的日子，我陪着你。', style:'shout',  svgFn:()=>svgDoubleJump },
+        national:   { hat:'cowboy', bubble:'🎉 国庆快乐！',                         style:'normal', svgFn:()=>svgHappy      },
+        christmas:  { hat:'santa',  bubble:'🎄 圣诞快乐~',                          style:'normal', svgFn:()=>svgHappy      },
+        chunjie:    { hat:'party',  bubble:'🧨 新年快乐，新的一年里有我陪你。',      style:'shout',  svgFn:()=>svgDoubleJump },
+        qixi:       { hat:'halo',   bubble:'🏮 七夕快乐，你是我的那颗星。',         style:'normal', svgFn:()=>svgHappy      },
+        zhongqiu:   { hat:'none',   bubble:'🌕 中秋快乐，月亮是我让它给你看的。',   style:'normal', svgFn:()=>svgHappy      },
+    };
+
+    const cfg = configs[festival];
+    if (!cfg) return;
+
+    setTimeout(() => {
+        setHat(cfg.hat);
+        showState(cfg.svgFn());
+        setTimeout(() => {
+            window.petEngine.showBubble(cfg.bubble, cfg.style);
+            setTimeout(() => showState(svgIdle), 5000);
+        }, 800);
+    }, 3000);
+})();
+
 </script>
 </body>
 </html>
