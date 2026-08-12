@@ -2143,6 +2143,12 @@ window.petEngine = {
             case 'happy': pet.className = 'pet happy'; showState(svgHappy); setTimeout(() => { pet.className = 'pet'; showState(svgIdle); }, 3000); break;
             case 'sleepy': isSleeping = true; pet.className = 'pet sleeping'; showState(svgSleep); break;
             case 'angry': pet.className = 'pet tap'; showState(svgAnnoyed); setTimeout(() => { pet.className = 'pet'; showState(svgIdle); }, 2000); break;
+            // === 聊天情绪感知 ===
+            case 'joyful': pet.className = 'pet happy'; showState(svgDoubleJump); this.showBubble('今天心情很好！', 'shout'); setTimeout(() => { pet.className = 'pet'; showState(svgWalk); setTimeout(() => showState(svgIdle), 3000); }, 2000); break;
+            case 'sad': pet.className = 'pet'; showState(svgDoze); this.showBubble('唔……', 'whisper'); setTimeout(() => showState(svgIdle), 6000); break;
+            case 'clingy': showState(svgWalk); this.showBubble(this.randomFrom(['来陪我嘛', '...理我一下', '过来过来', '不要走']), 'jealous'); setTimeout(() => showState(svgIdle), 6000); break;
+            case 'aloof': showState(svgHeadphones); setTimeout(() => showState(svgIdle), 8000); break;
+            case 'cool': showState(svgDoubleJump); setTimeout(() => { showState(svgIdle); this.showBubble('没什么没什么', 'whisper'); }, 1500); break;
             default: pet.className = 'pet'; showState(svgIdle);
         }
     },
